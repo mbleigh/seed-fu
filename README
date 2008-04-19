@@ -1,0 +1,62 @@
+Seed Fu
+=======
+
+Seed Fu is an attempt to once and for all solve the problem of inserting and
+maintaining seed data in a database. It uses a variety of techniques gathered
+from various places around the web and combines them to create what is 
+hopefully the most robust seed data system around.
+
+Usage
+=======
+
+Seed data is sown from the db/fixtures directory. Simply make descriptive .rb
+files in that directory (they can be named anything, but users.rb for the User
+model seed data makes sense, etc.). These scripts will be run whenever the
+db:seed rake task is called. You can put arbitrary Ruby code in these files,
+but remember that it will be executed every time the rake task is called, so
+it needs to be runnable multiple times on the same database.
+
+You can also have environment-specific seed data placed in 
+db/fixtures/ENVIRONMENT that will only be loaded if that is the current
+environment.
+
+Let's say we want to populate a few default users. In db/fixtures/users.rb we
+write the following code:
+
+    User.seed(:login, :email) do |s|
+      s.login = "bob"
+      s.email = "bob@bobson.com"
+      s.first_name = "Bob"
+      s.last_name = "Bobson"
+    end
+    
+    User.seed(:login,:email) do |s|
+      s.login = "bob"
+      s.email = "bob@stevenson.com"
+      s.first_name = "Bob"
+      s.last_name = "Stevenson"
+    end
+
+That's all you have to do! You will now have two users created in the system
+and you can change their first and last names in the users.rb file and it will
+be updated as such.
+
+The arguments passed to the <ActiveRecord>.seed method are the constraining
+attributes: these must remain unchanged between db:seed calls to avoid data
+duplication. By default, seed data will constrain to the id like so:
+
+    Category.seed do |s|
+      s.id = 1
+      s.name = "Buttons"
+    end
+    
+    Category.seed do |s|
+      s.id = 2
+      s.name = "Bobbins"
+      s.parent_id = 1
+    end
+    
+Note that any constraints that are passed in must be present in the subsequent
+seed data setting.
+
+Copyright (c) 2008 Michael Bleigh, released under the MIT license
