@@ -6,10 +6,14 @@ maintaining seed data in a database. It uses a variety of techniques gathered
 from various places around the web and combines them to create what is 
 hopefully the most robust seed data system around.
 
+If you have suggestions or come across problems, please report them on
+the Lighthouse project for Seed Fu:
+http://mbleigh.lighthouseapp.com/projects/10223-seed-fu/overview
+
 Usage
 =======
 
-Seed data is sown from the db/fixtures directory. Simply make descriptive .rb
+Seed data is taken from the db/fixtures directory. Simply make descriptive .rb
 files in that directory (they can be named anything, but users.rb for the User
 model seed data makes sense, etc.). These scripts will be run whenever the
 db:seed rake task is called. You can put arbitrary Ruby code in these files,
@@ -30,7 +34,7 @@ write the following code:
       s.last_name = "Bobson"
     end
     
-    User.seed(:login,:email) do |s|
+    User.seed(:login, :email) do |s|
       s.login = "bob"
       s.email = "bob@stevenson.com"
       s.first_name = "Bob"
