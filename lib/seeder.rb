@@ -28,7 +28,9 @@ class Seeder
   
   def plant!
     record = get
-    record.attributes = @data
+    @data.each do |k, v|
+      record.send("#{k}=", v)
+    end
     record.save!
     puts " - #{@model_class} #{condition_hash.inspect}"
     record
