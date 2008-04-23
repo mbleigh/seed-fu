@@ -17,7 +17,7 @@ class Seeder
     raise "You must set at least one constraint." if constraints.empty?
     @constraints = []
     constraints.each do |constraint|
-      raise "Your constraint `#{constraint}` is not a column in #{@model_class}. Valid columns are `#{@model_class.column_names.collect(&:name).join("`, `")}`." unless @model_class.column_names.include?(constraint.to_s)
+      raise "Your constraint `#{constraint}` is not a column in #{@model_class}. Valid columns are `#{@model_class.column_names.join("`, `")}`." unless @model_class.column_names.include?(constraint.to_s)
       @constraints << constraint.to_sym
     end
   end
