@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'seed-fu'
-  s.version = '1.0.20080704'
+  s.version = '1.0.200807042'
   s.date = '2008-07-04'
   
   s.summary = "Allows easier database seeding of tables"
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
              "Rakefile",
              "init.rb",
              "lib/seed-fu.rb",
+             "lib/autotest/discover.rb",
              "rails/init.rb",
              "seed-fu.gemspec",
              "spec/schema.rb",
