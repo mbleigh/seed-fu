@@ -2,9 +2,11 @@ class Seeder
   def self.plant(model_class, *constraints, &block)
     constraints = [:id] if constraints.empty?
     seed = Seeder.new(model_class)
+    insert_only = constraints.last.is_a? TrueClass
+    constraints.delete_at(*constraints.length-1) if (constraints.last.is_a? TrueClass or constraints.last.is_a? FalseClass)
     seed.set_constraints(*constraints)
     yield seed
-    seed.plant!
+    seed.plant!(insert_only)
   end
   
   def initialize(model_class)
@@ -26,8 +28,9 @@ class Seeder
     @data[name.to_sym] = value
   end
   
-  def plant!
+  def plant! insert_only=false
     record = get
+    return if !record.new_record? and insert_only
     @data.each do |k, v|
       record.send("#{k}=", v)
     end
