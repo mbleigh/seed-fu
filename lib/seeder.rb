@@ -35,7 +35,6 @@ class Seeder
       record.send("#{k}=", v)
     end
     record.save!
-    puts " - #{@model_class} #{condition_hash.inspect}"
     record
   end
   
@@ -73,4 +72,16 @@ class ActiveRecord::Base
   def self.seed(*constraints, &block)
     Seeder.plant(self, *constraints, &block)
   end
+  
+  def self.seed_many(*constraints)
+    seeds = constraints.pop
+    seeds.each do |seed_data|
+      seed(*constraints) do |s|
+        seed_data.each_pair do |k,v|
+          s.send "#{k}=", v
+        end
+      end
+    end
+  end
+  
 end

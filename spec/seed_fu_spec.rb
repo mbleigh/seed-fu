@@ -43,6 +43,18 @@ describe Seeder do
     SeededModel.find_by_login("bob").first_name.should == "Steve"
   end
   
+  it "should be able to create models from an array of seed attributes" do
+    SeededModel.seed_many(:title, :login, [
+      {:login => "bob", :title => "Peon", :first_name => "Steve"},
+      {:login => "frank", :title => "Peasant", :first_name => "Francis"},
+      {:login => "harry", :title => "Noble", :first_name => "Harry"}
+    ])
+    
+    SeededModel.find_by_login("bob").first_name.should == "Steve"
+    SeededModel.find_by_login("frank").first_name.should == "Francis"
+    SeededModel.find_by_login("harry").first_name.should == "Harry"
+  end
+  
   #it "should raise an error if constraints are not unique" do
   #  SeededModel.create(:login => "bob", :first_name => "Bob", :title => "Peon")
   #  SeededModel.create(:login => "bob", :first_name => "Robert", :title => "Manager")
