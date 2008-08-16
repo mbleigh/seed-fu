@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name = 'seed-fu'
-  s.version = '1.0.200807042'
-  s.date = '2008-07-04'
+  s.version = '0.0.1'
+  s.date = '2008-08-16'
   
-  s.summary = "Allows easier database seeding of tables"
+  s.summary = "Allows easier database seeding of tables."
   s.description = "Seed Fu is an attempt to once and for all solve the problem of inserting and maintaining seed data in a database. It uses a variety of techniques gathered from various places around the web and combines them to create what is hopefully the most robust seed data system around."
   
   s.authors = ["Michael Bleigh"]
