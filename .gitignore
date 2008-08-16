@@ -1,1 +1,3 @@
 *.log
+*.gem
+.DS_Store

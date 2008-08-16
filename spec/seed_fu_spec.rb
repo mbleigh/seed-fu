@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/spec_helper'
 
 load(File.dirname(__FILE__) + '/schema.rb')
 
-describe Seeder do
+describe SeedFu::Seeder do
   it "should create a model if one doesn't exist" do
     SeededModel.seed(:id) do |s|
       s.id = 1
