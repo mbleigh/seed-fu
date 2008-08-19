@@ -36,6 +36,7 @@ module SeedFu
         record.send("#{k}=", v)
       end
       record.save!
+      puts " - #{@model_class} #{condition_hash.inspect}"      
       record
     end
 
