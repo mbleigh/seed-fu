@@ -38,7 +38,18 @@ namespace :db do
     potential_seed_files.each do |file|
       pretty_name = file.sub("#{RAILS_ROOT}/", "")
       puts "\n== Seed from #{pretty_name} " + ("=" * (60 - (17 + File.split(file).last.length)))
-      load file
+
+      old_level = ActiveRecord::Base.logger.level
+      begin
+        ActiveRecord::Base.validation_disabled = true
+        ActiveRecord::Base.logger.level = 7
+        ActiveRecord::Base.transaction do
+          load file
+        end
+      ensure
+        ActiveRecord::Base.validation_disabled = false
+        ActiveRecord::Base.logger.level = old_level
+      end
     end
   end
 end
