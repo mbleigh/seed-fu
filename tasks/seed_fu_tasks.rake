@@ -26,7 +26,7 @@ namespace :db do
     fixture_path = ENV["FIXTURE_PATH"] ? ENV["FIXTURE_PATH"] : "db/fixtures"
 
     global_seed_files = Dir[File.join(RAILS_ROOT, fixture_path, '*.rb')].sort
-    env_specific_seed_files = Dir[File.join(RAILS_ROOT, fixture_path, RAILS_ENV, '*.rb')]
+    env_specific_seed_files = Dir[File.join(RAILS_ROOT, fixture_path, RAILS_ENV, '*.rb')].sort
     potential_seed_files = (global_seed_files + env_specific_seed_files).uniq
     
     if ENV["SEED"]
