@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
   s.name = 'seed-fu'
-  s.version = '1.0.0'
-  s.date = '2008-08-16'
+  s.version = '1.1.0'
+  s.date = '2009-07-29'
   
   s.summary = "Allows easier database seeding of tables."
   s.description = "Seed Fu is an attempt to once and for all solve the problem of inserting and maintaining seed data in a database. It uses a variety of techniques gathered from various places around the web and combines them to create what is hopefully the most robust seed data system around."
   
-  s.authors = ["Michael Bleigh"]
-  s.email = "michael@intridea.com"
-  s.homepage = 'http://github.com/mbleigh/seed-fu'
+  s.authors = ["Michael Bleigh", "Matthew Beale"]
+  s.email = "mixonic@synitech.com"
+  s.homepage = 'http://github.com/mixonic/seed-fu'
   
   s.has_rdoc = true
   s.rdoc_options = ["--main", "README"]
@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
              "Rakefile",
              "init.rb",
              "lib/seed-fu.rb",
-             "lib/autotest/discover.rb",
              "rails/init.rb",
              "seed-fu.gemspec",
              "spec/schema.rb",
