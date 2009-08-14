@@ -41,13 +41,11 @@ namespace :db do
 
       old_level = ActiveRecord::Base.logger.level
       begin
-        ActiveRecord::Base.validation_disabled = true
         ActiveRecord::Base.logger.level = 7
         ActiveRecord::Base.transaction do
           load file
         end
       ensure
-        ActiveRecord::Base.validation_disabled = false
         ActiveRecord::Base.logger.level = old_level
       end
     end
