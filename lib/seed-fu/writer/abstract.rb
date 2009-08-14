@@ -3,10 +3,11 @@ module SeedFu
   module Writer
 
     class Abstract
-      attr_accessor :seed_handle, :config, :after_first_line
+      attr_accessor :seed_handle, :config, :number_of_seeds
 
       def initialize(options={})
         self.config = options
+        self.number_of_seeds = 0
 
         self.seed_handle = File.new(self.config[:seed_file], 'w')
 
@@ -34,7 +35,7 @@ module SeedFu
 
       def add_seed(hash)
         $stdout.puts "Added #{hash.inspect}" unless config[:quiet]
-        self.after_first_line = true
+        self.number_of_seeds += 1
       end
 
       def write_header
