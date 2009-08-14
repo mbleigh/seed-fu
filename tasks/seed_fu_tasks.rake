@@ -1,3 +1,5 @@
+require "zlib"
+
 namespace :db do
   desc <<-EOS
     Loads seed data for the current environment. It will look for
@@ -25,26 +27,41 @@ namespace :db do
   task :seed => :environment do
     fixture_path = ENV["FIXTURE_PATH"] ? ENV["FIXTURE_PATH"] : "db/fixtures"
 
-    global_seed_files = Dir[File.join(RAILS_ROOT, fixture_path, '*.rb')].sort
-    env_specific_seed_files = Dir[File.join(RAILS_ROOT, fixture_path, RAILS_ENV, '*.rb')].sort
-    potential_seed_files = (global_seed_files + env_specific_seed_files).uniq
+    seed_files = (
+      ( Dir[File.join(RAILS_ROOT, fixture_path, '*.rb')] +
+        Dir[File.join(RAILS_ROOT, fixture_path, '*.rb.gz')] ).sort +
+      ( Dir[File.join(RAILS_ROOT, fixture_path, RAILS_ENV, '*.rb')] +
+        Dir[File.join(RAILS_ROOT, fixture_path, RAILS_ENV, '*.rb.gz')] ).sort
+    ).uniq
     
     if ENV["SEED"]
       filter = ENV["SEED"].gsub(/,/, "|")
-      potential_seed_files.reject!{ |file| true unless file =~ /#{filter}/ }
+      seed_files.reject!{ |file| !(file =~ /#{filter}/) }
       puts "\n == Filtering seed files against regexp: #{filter}"
     end
 
-    potential_seed_files.each do |file|
+    seed_files.each do |file|
       pretty_name = file.sub("#{RAILS_ROOT}/", "")
       puts "\n== Seed from #{pretty_name} " + ("=" * (60 - (17 + File.split(file).last.length)))
 
       old_level = ActiveRecord::Base.logger.level
       begin
         ActiveRecord::Base.logger.level = 7
+
         ActiveRecord::Base.transaction do
-          load file
+          if pretty_name[-3..pretty_name.length] == '.gz'
+            # If the file is gzip, read it and use eval
+            #
+            Zlib::GzipReader.open(file) do |gz|
+              eval gz.read
+            end
+          else
+            # Just load regular .rb files
+            #
+            load file
+          end
         end
+
       ensure
         ActiveRecord::Base.logger.level = old_level
       end
