@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = 'seed-fu'
-  s.version = '1.1.0'
-  s.date = '2009-07-29'
+  s.version = '1.2.0'
+  s.date = '2009-08-14'
   
   s.summary = "Allows easier database seeding of tables."
   s.description = "Seed Fu is an attempt to once and for all solve the problem of inserting and maintaining seed data in a database. It uses a variety of techniques gathered from various places around the web and combines them to create what is hopefully the most robust seed data system around."
@@ -20,6 +20,10 @@ Gem::Specification.new do |s|
              "Rakefile",
              "init.rb",
              "lib/seed-fu.rb",
+             "lib/seed-fu/writer.rb",
+             "lib/seed-fu/writer/abstract.rb",
+             "lib/seed-fu/writer/seed.rb",
+             "lib/seed-fu/writer/seed_many.rb",
              "rails/init.rb",
              "seed-fu.gemspec",
              "spec/schema.rb",
