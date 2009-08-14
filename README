@@ -10,8 +10,8 @@ If you have suggestions or come across problems, please report them on
 the Lighthouse project for Seed Fu:
 http://mbleigh.lighthouseapp.com/projects/10223-seed-fu/overview
 
-Usage
-=======
+Simple Usage
+============
 
 Seed data is taken from the db/fixtures directory. Simply make descriptive .rb
 files in that directory (they can be named anything, but users.rb for the User
@@ -63,4 +63,72 @@ duplication. By default, seed data will constrain to the id like so:
 Note that any constraints that are passed in must be present in the subsequent
 seed data setting.
 
-Copyright (c) 2008 Michael Bleigh, released under the MIT license
+Seed-many Usage
+===============
+
+Seed files can get pretty large.  One way to keep down the file size is to use
+the seed_many syntax.  An example re-using the first seed usage example above:
+
+    User.seed_many(:login, :email, [
+      { :login => "bob", :email => "bob@bobson.com", :first_name => "Bob", :last_name = "Bobson" },
+      { :login => "bob", :email => "bob@stevenson.com", :first_name => "Bob", :last_name = "Stevenson" }
+    ])
+
+Not as pretty, but much more concise.
+
+Generating SeedFu Files
+=======================
+
+Say you have a CSV you need to massage and store as seed files.  You can create
+an import script using SeedFu::Writer.
+
+    # script/generate_cities_seed_from_csv
+    require 'rubygems'
+    require 'fastercsv'
+    require File.join( File.dirname(__FILE__), '..', 'vendor/plugins/seed-fu/lib/seed-fu/writer' )
+
+    CITY_CSV  = File.join( File.dirname(__FILE__), '..', 'city.csv' )
+    SEED_FILE = File.join( File.dirname(__FILE__), '..', 'db', 'fixtures', 'cities.rb' )
+
+    # Create a seed_writer, walk the CSV, add to the file.
+    #
+
+    seed_writer = SeedFu::Writer::SeedMany.new(
+      :seed_file  => SEED_FILE,
+      :seed_model => 'City',
+      :seed_by    => [ :city, :state ]
+    )
+
+    FasterCSV.foreach( CITY_CSV,
+      :return_headers => false,
+      :headers => :first_row
+    ) do |row|
+
+      # Skip all but the US
+      #
+      next unless row['country_code'] == 'US'
+
+      unless us_state
+        puts "No State Match for #{row['region_name']}"
+        next
+      end
+
+      # Write the seed
+      #
+      seed_writer.add_seed({
+        :zip => row['zipcode'],
+        :state => row['state'],
+        :city => row['city'],
+        :latitude => row['latitude'],
+        :longitude => row['longitude']
+      })
+
+    end
+
+    seed_writer.finish
+
+There is also a SeedFu::Writer::Seed in case you don't want to seed_many syntax.
+Easy-peasy.
+
+
+Copyright (c) 2008 Michael Bleigh, Matthew Beale released under the MIT license
