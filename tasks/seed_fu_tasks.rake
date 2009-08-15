@@ -53,12 +53,32 @@ namespace :db do
             # If the file is gzip, read it and use eval
             #
             Zlib::GzipReader.open(file) do |gz|
-              eval gz.read
+              chunked_ruby = ''
+              gz.each_line do |line|
+                if line == "# BREAK EVAL\n"
+                  eval(chunked_ruby)
+                  chunked_ruby = ''
+                else
+                  chunked_ruby << line
+                end
+              end
+              eval(chunked_ruby) unless chunked_ruby == ''
             end
           else
             # Just load regular .rb files
             #
-            load file
+            File.open(file) do |file|
+              chunked_ruby = ''
+              file.each_line do |line|
+                if line == "# BREAK EVAL\n"
+                  eval(chunked_ruby)
+                  chunked_ruby = ''
+                else
+                  chunked_ruby << line
+                end
+              end
+              eval(chunked_ruby) unless chunked_ruby == ''
+            end
           end
         end
 

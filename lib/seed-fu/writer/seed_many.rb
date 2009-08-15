@@ -27,7 +27,11 @@ module SeedFu
         super(hash)
 
         if chunk_this_seed?
-          seed_handle.syswrite self.seed_many_footer + self.seed_many_header
+          seed_handle.syswrite(
+            self.seed_many_footer +
+            "# BREAK EVAL\n" +
+            self.seed_many_header
+          )
         end
       end
 

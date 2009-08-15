@@ -6,25 +6,23 @@ maintaining seed data in a database. It uses a variety of techniques gathered
 from various places around the web and combines them to create what is 
 hopefully the most robust seed data system around.
 
-If you have suggestions or come across problems, please report them on
-the Lighthouse project for Seed Fu:
-http://mbleigh.lighthouseapp.com/projects/10223-seed-fu/overview
 
 Simple Usage
 ============
 
-Seed data is taken from the db/fixtures directory. Simply make descriptive .rb
+Seed data is taken from the `db/fixtures` directory. Simply make descriptive .rb
 files in that directory (they can be named anything, but users.rb for the User
 model seed data makes sense, etc.). These scripts will be run whenever the
-db:seed rake task is called. You can put arbitrary Ruby code in these files,
+db:seed rake task is called, and in order (you can use `00_first.rb`,
+`00_second.rb`, etc). You can put arbitrary Ruby code in these files,
 but remember that it will be executed every time the rake task is called, so
 it needs to be runnable multiple times on the same database.
 
 You can also have environment-specific seed data placed in 
-db/fixtures/ENVIRONMENT that will only be loaded if that is the current
+`db/fixtures/ENVIRONMENT` that will only be loaded if that is the current
 environment.
 
-Let's say we want to populate a few default users. In db/fixtures/users.rb we
+Let's say we want to populate a few default users. In `db/fixtures/users.rb` we
 write the following code:
 
     User.seed(:login, :email) do |s|
@@ -45,7 +43,7 @@ That's all you have to do! You will now have two users created in the system
 and you can change their first and last names in the users.rb file and it will
 be updated as such.
 
-The arguments passed to the <ActiveRecord>.seed method are the constraining
+The arguments passed to the `<ActiveRecord>.seed` method are the constraining
 attributes: these must remain unchanged between db:seed calls to avoid data
 duplication. By default, seed data will constrain to the id like so:
 
@@ -66,15 +64,29 @@ seed data setting.
 Seed-many Usage
 ===============
 
-Seed files can get pretty large.  One way to keep down the file size is to use
-the seed_many syntax.  An example re-using the first seed usage example above:
+The default `.seed` syntax is very verbose.  An alternative is the `.seed_many` syntax.
+Look at this refactoring of the first seed usage example above:
 
     User.seed_many(:login, :email, [
-      { :login => "bob", :email => "bob@bobson.com", :first_name => "Bob", :last_name = "Bobson" },
+      { :login => "bob", :email => "bob@bobson.com",    :first_name => "Bob", :last_name = "Bobson" },
       { :login => "bob", :email => "bob@stevenson.com", :first_name => "Bob", :last_name = "Stevenson" }
     ])
 
 Not as pretty, but much more concise.
+
+Handling Large SeedFu Files
+===========================
+
+Seed files can be huge.  To handle large files (over a million rows), try these tricks:
+
+* Gzip your fixtures.  Seed Fu will read .rb.gz files happily.  `gzip -9` gives the
+  best compression, and with Seed Fu's repetitive syntax, a 160M file can shrink to 16M.
+* Add lines reading `# BREAK EVAL` in your big fixtures, and Seed Fu will avoid loading
+  the whole file into memory.  If you use SeedFu::Writer, these breaks are built into
+  your generated fixtures.
+* Load a single fixture with the `SEED` environment varialble:
+  `SEED=cities,states rake db:seed > seed_log`.  Each argument to `SEED` is used as a
+  regex to filter fixtures by filename.
 
 Generating SeedFu Files
 =======================
@@ -82,11 +94,16 @@ Generating SeedFu Files
 Say you have a CSV you need to massage and store as seed files.  You can create
 an import script using SeedFu::Writer.
 
-    # script/generate_cities_seed_from_csv
+    #!/usr/bin/env ruby
+    #
+    # This is: script/generate_cities_seed_from_csv
+    #
     require 'rubygems'
     require 'fastercsv'
     require File.join( File.dirname(__FILE__), '..', 'vendor/plugins/seed-fu/lib/seed-fu/writer' )
 
+    # Maybe SEEF_FILE could be $stdout, hm.
+    #
     CITY_CSV  = File.join( File.dirname(__FILE__), '..', 'city.csv' )
     SEED_FILE = File.join( File.dirname(__FILE__), '..', 'db', 'fixtures', 'cities.rb' )
 
@@ -127,8 +144,8 @@ an import script using SeedFu::Writer.
 
     seed_writer.finish
 
-There is also a SeedFu::Writer::Seed in case you don't want to seed_many syntax.
-Easy-peasy.
+There is also a SeedFu::Writer::Seed in case you prefere the seed()
+syntax over the seen_many() syntax.  Easy-peasy.
 
 
 Copyright (c) 2008 Michael Bleigh, Matthew Beale released under the MIT license

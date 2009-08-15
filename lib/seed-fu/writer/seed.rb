@@ -14,6 +14,9 @@ module SeedFu
         END
         )
         super(hash)
+        if chunk_this_seed?
+          seed_handle.syswrite "# BREAK EVAL\n"
+        end
       end
 
     end
