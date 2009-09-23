@@ -1,5 +1,7 @@
 require "zlib"
 
+task_name = Rake::Task.task_defined?("db:seed") ? "seed_fu" : "seed"
+
 namespace :db do
   desc <<-EOS
     Loads seed data for the current environment. It will look for
@@ -24,7 +26,7 @@ namespace :db do
       # to load files from RAILS_ROOT/features/fixtures
       rake db:seed FIXTURE_PATH=features/fixtures 
   EOS
-  task :seed => :environment do
+  task task_name => :environment do
     fixture_path = ENV["FIXTURE_PATH"] ? ENV["FIXTURE_PATH"] : "db/fixtures"
 
     seed_files = (
