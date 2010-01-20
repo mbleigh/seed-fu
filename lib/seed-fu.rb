@@ -75,7 +75,8 @@ class ActiveRecord::Base
   end
   
   def self.seed_once(*constraints, &block)
-    SeedFu::Seeder.plant(self, *constraints, true, &block)
+    constraints << true
+    SeedFu::Seeder.plant(self, *constraints, &block)
   end
 
   def self.seed_many(*constraints)
