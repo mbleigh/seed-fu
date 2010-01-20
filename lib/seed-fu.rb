@@ -73,6 +73,10 @@ class ActiveRecord::Base
   def self.seed(*constraints, &block)
     SeedFu::Seeder.plant(self, *constraints, &block)
   end
+  
+  def self.seed_once(*constraints, &block)
+    SeedFu::Seeder.plant(self, *constraints, true, &block)
+  end
 
   def self.seed_many(*constraints)
     seeds = constraints.pop
