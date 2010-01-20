@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{seed-fu}
-  s.version = "1.2.2"
+  s.version = "1.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Bleigh"]
-  s.date = %q{2010-01-18}
+  s.date = %q{2010-01-20}
   s.description = %q{Seed Fu is an attempt to once and for all solve the problem of inserting and maintaining seed data in a database. It uses a variety of techniques gathered from various places around the web and combines them to create what is hopefully the most robust seed data system around.}
   s.email = %q{michael@intridea.com}
   s.extra_rdoc_files = [
