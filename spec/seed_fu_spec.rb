@@ -149,7 +149,7 @@ describe SeedFu::Seeder do
   end
 
   it "should use the SpecFu.fixtures_path variable to determine where fixtures are" do
-    SeedFu.fixture_path = File.dirname(__FILE__) + '/fixtures'
+    SeedFu.fixture_paths = [File.dirname(__FILE__) + '/fixtures']
     SeedFu.seed
     SeededModel.count.should == 3
   end

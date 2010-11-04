@@ -26,7 +26,7 @@ namespace :db do
   EOS
   task :seed_fu => :environment do
     if ENV["SEED"]
-      puts "DEPRECATED: The SEED option to the rake task is deprecated. Please use FILTER instead."
+      puts "DEPRECATED: The SEED option to db:seed_fu is deprecated. Please use FILTER instead."
       ENV["FILTER"] = ENV["SEED"]
     end
 
@@ -34,6 +34,10 @@ namespace :db do
       filter = /#{ENV["FILTER"].gsub(/,/, "|")}/
     end
 
-    SeedFu.seed(ENV["FIXTURE_PATH"], filter)
+    if ENV["FIXTURE_PATH"]
+      fixture_paths = [ENV["FIXTURE_PATH"], ENV["FIXTURE_PATH"] + '/' + Rails.env]
+    end
+
+    SeedFu.seed(fixture_paths, filter)
   end
 end

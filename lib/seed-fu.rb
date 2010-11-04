@@ -1,4 +1,5 @@
 require 'active_record'
+require 'seed-fu/railtie' if defined?(Rails) && Rails.version >= "3"
 
 module SeedFu
   autoload :Seeder,                'seed-fu/seeder'
@@ -11,12 +12,12 @@ module SeedFu
   mattr_accessor :quiet
   @@quiet = false
 
-  # The location of fixtures
-  mattr_accessor :fixture_path
-  @@fixture_path = 'db/fixtures'
+  # The locations of fixtures
+  mattr_accessor :fixture_paths
+  @@fixture_paths = ['db/fixtures']
 
-  def self.seed(fixture_path = nil, filter = nil)
-    Runner.new(fixture_path, filter).run
+  def self.seed(fixture_paths = nil, filter = nil)
+    Runner.new(fixture_paths, filter).run
   end
 end
 

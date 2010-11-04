@@ -1,10 +1,11 @@
 require 'zlib'
+require 'active_support/core_ext/array/wrap'
 
 module SeedFu
   class Runner
-    def initialize(fixture_path = nil, filter = nil)
-      @fixture_path = fixture_path || SeedFu.fixture_path
-      @filter       = filter
+    def initialize(fixture_paths = nil, filter = nil)
+      @fixture_paths = Array.wrap(fixture_paths || SeedFu.fixture_paths)
+      @filter        = filter
     end
 
     def run
@@ -49,14 +50,10 @@ module SeedFu
       end
 
       def filenames
-        filenames  = (Dir[File.join(@fixture_path, '*.rb')] +
-                      Dir[File.join(@fixture_path, '*.rb.gz')]).sort
-
-        if defined?(Rails)
-          filenames += (Dir[File.join(@fixture_path, Rails.env, '*.rb')] +
-                        Dir[File.join(@fixture_path, Rails.env, '*.rb.gz')]).sort
+        filenames = []
+        @fixture_paths.each do |path|
+          filenames += (Dir[File.join(path, '*.rb')] + Dir[File.join(path, '*.rb.gz')]).sort
         end
-
         filenames.uniq!
         filenames = filenames.find_all { |filename| filename =~ @filter } if @filter
         filenames
