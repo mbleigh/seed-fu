@@ -9,6 +9,11 @@ module SeedFu
       SeedFu::Seeder.new(self, constraints, data, :insert_only => true).seed
     end
 
+    def seed_many(*args, &block)
+      puts "DEPRECATED: Model.seed_many is deprecated. You can now use Model.seed in exactly the same way." unless SeedFu.quiet
+      seed(*args, &block)
+    end
+
     private
 
       def parse_seed_fu_args(args, block)

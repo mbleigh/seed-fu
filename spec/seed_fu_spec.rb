@@ -69,6 +69,11 @@ describe SeedFu::Seeder do
     SeededModel.find_by_login("harry").first_name.should == "Harry"
   end
 
+  it "should alias seed as seed_many (deprecated)" do
+    SeededModel.seed_many(:id => 2, :title => "Foo")
+    SeededModel.find(2).title.should == "Foo"
+  end
+
   it "should update, not create, if constraints are met" do
     SeededModel.seed(:id) do |s|
       s.id = 1
