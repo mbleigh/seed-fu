@@ -4,7 +4,7 @@ module SeedFu
   class Seeder
     def initialize(model_class, constraints, data, options = {})
       @model_class = model_class
-      @constraints = (constraints || [:id]).to_a
+      @constraints = constraints.to_a.empty? ? [:id] : constraints
       @data        = data.to_a || []
       @options     = options.symbolize_keys
 
