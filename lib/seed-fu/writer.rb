@@ -1,10 +1,14 @@
 module SeedFu
   class Writer
-    def initialize(options = {})
-      @options = options
-      @options[:chunk_size]  ||= 100
-      @options[:constraints] ||= [:id]
+    cattr_accessor :default_options
+    @@default_options = {
+      :chunk_size  => 100,
+      :constraints => [:id],
+      :seed_type   => :seed
+    }
 
+    def initialize(options = {})
+      @options = self.class.default_options.merge(options)
       raise ArgumentError, "missing option :class_name" unless @options[:class_name]
     end
 
@@ -76,7 +80,7 @@ module SeedFu
 
       def seed_header
         constraints = @options[:constraints] && @options[:constraints].map(&:inspect).join(', ')
-        "#{@options[:class_name]}.seed(#{constraints}"
+        "#{@options[:class_name]}.#{@options[:seed_type]}(#{constraints}"
       end
 
       def seed_footer
