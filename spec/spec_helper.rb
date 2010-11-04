@@ -3,6 +3,8 @@ require 'bundler/setup'
 require 'seed-fu'
 require 'logger'
 
+SeedFu.quiet = true
+
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/../debug.log")
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
@@ -20,4 +22,5 @@ end
 
 class SeededModel < ActiveRecord::Base
   validates_presence_of :title
+  attr_protected :first_name
 end

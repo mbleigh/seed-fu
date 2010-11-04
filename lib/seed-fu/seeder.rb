@@ -1,64 +1,59 @@
+require 'active_support/core_ext/hash/keys'
+
 module SeedFu
   class Seeder
-    def self.plant(model_class, *constraints, &block)
-      constraints = [:id] if constraints.empty?
-      seed = Seeder.new(model_class)
-      insert_only = constraints.last.is_a? TrueClass
-      constraints.delete_at(*constraints.length-1) if (constraints.last.is_a? TrueClass or constraints.last.is_a? FalseClass)
-      seed.set_constraints(*constraints)
-      yield seed
-      seed.plant!(insert_only)
-    end
-
-    def initialize(model_class)
+    def initialize(model_class, constraints, data, options = {})
       @model_class = model_class
-      @constraints = [:id]
-      @data = {}
+      @constraints = (constraints || [:id]).to_a
+      @data        = data.to_a || []
+      @options     = options.symbolize_keys
+
+      @options[:quiet] ||= SeedFu.quiet
+
+      validate_constraints!
+      validate_data!
     end
 
-    def set_constraints(*constraints)
-      raise "You must set at least one constraint." if constraints.empty?
-      @constraints = []
-      constraints.each do |constraint|
-        raise "Your constraint `#{constraint}` is not a column in #{@model_class}. Valid columns are `#{@model_class.column_names.join("`, `")}`." unless @model_class.column_names.include?(constraint.to_s)
-        @constraints << constraint.to_sym
+    def seed
+      @model_class.transaction do
+        @data.map { |record_data| seed_record(record_data.symbolize_keys) }
       end
     end
 
-    def plant! insert_only=false
-      record = get
-      return if !record.new_record? and insert_only
-      @data.each do |k, v|
-        record.send("#{k}=", v)
+    private
+
+      def validate_constraints!
+        unknown_columns = @constraints.map(&:to_s) - @model_class.column_names
+        unless unknown_columns.empty?
+          raise(ArgumentError,
+            "Your seed constraints contained unknown columns: #{column_list(unknown_columns)}. " +
+            "Valid columns are: #{column_list(@model_class.column_names)}.")
+        end
       end
-      raise "Error Saving: #{record.inspect}" unless record.save(:validate => false)
-      puts " - #{@model_class} #{condition_hash.inspect}"
-      record
-    end
 
-    def method_missing(method_name, *args) #:nodoc:
-      if args.size == 1 and (match = method_name.to_s.match(/(.*)=$/))
-        self.class.class_eval "def #{method_name} arg; @data[:#{match[1]}] = arg; end"
-        send(method_name, args[0])
-      else
-        super
+      def validate_data!
+        raise ArgumentError, "Seed data missing" if @data.empty?
       end
-    end
 
-    protected
-
-    def get
-      records = @model_class.find(:all, :conditions => condition_hash)
-      raise "Given constraints yielded multiple records." unless records.size < 2
-      if records.any?
-        return records.first
-      else
-        return @model_class.new
+      def column_list(columns)
+        '`' + columns.join("`, `") + '`'
       end
-    end
 
-    def condition_hash
-      @constraints.inject({}) {|a,c| a[c] = @data[c]; a }
-    end
+      def seed_record(data)
+        record = find_or_initialize_record(data)
+        return if @options[:insert_only] && !record.new_record?
+        record.send(:attributes=, data, false)
+        puts " - #{@model_class} #{data.inspect}" unless @options[:quiet]
+        record.save!
+      end
+
+      def find_or_initialize_record(data)
+        @model_class.where(constraint_conditions(data)).first ||
+        @model_class.new
+      end
+
+      def constraint_conditions(data)
+        Hash[@constraints.map { |c| [c, data[c.to_sym]] }]
+      end
   end
 end
