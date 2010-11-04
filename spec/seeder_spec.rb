@@ -124,8 +124,4 @@ describe SeedFu::Seeder do
   it "should require that all constraints are defined" do
     lambda { SeededModel.seed(:doesnt_exist, :title => "Bla") }.should raise_error(ArgumentError)
   end
-
-  it "should raise an error if validation fails" do
-    lambda { SeededModel.seed(:id => 1) }.should raise_error(ActiveRecord::RecordInvalid)
-  end
 end

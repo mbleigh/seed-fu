@@ -27,6 +27,5 @@ ActiveRecord::Schema.define :version => 0 do
 end
 
 class SeededModel < ActiveRecord::Base
-  validates_presence_of :title
   attr_protected :first_name
 end

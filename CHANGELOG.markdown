@@ -7,7 +7,7 @@ Features:
 
 * The `Model.seed_many` syntax is now supported by `Model.seed`, and `Model.seed_many` is deprecated
 
-* Model.seed supports adding multiple records without an explicit array argument. I.e. the following are equivalent:
+* `Model.seed` supports adding multiple records without an explicit array argument. I.e. the following are equivalent:
 
       Model.seed([
         { :name => "Jon" },

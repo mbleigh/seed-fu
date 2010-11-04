@@ -44,7 +44,7 @@ module SeedFu
         return if @options[:insert_only] && !record.new_record?
         record.send(:attributes=, data, false)
         puts " - #{@model_class} #{data.inspect}" unless @options[:quiet]
-        record.save!
+        record.save(:validate => false)
       end
 
       def find_or_initialize_record(data)
