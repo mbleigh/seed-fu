@@ -3,6 +3,12 @@ require 'bundler/setup'
 require 'seed-fu'
 require 'logger'
 
+RSpec.configure do |config|
+  config.before do
+    SeededModel.delete_all
+  end
+end
+
 SeedFu.quiet = true
 
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/../debug.log")
