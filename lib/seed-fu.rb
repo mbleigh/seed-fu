@@ -1,3 +1,5 @@
+require 'active_record'
+
 module SeedFu
   class Seeder
     def self.plant(model_class, *constraints, &block)
@@ -32,7 +34,7 @@ module SeedFu
         record.send("#{k}=", v)
       end
       raise "Error Saving: #{record.inspect}" unless record.save(false)
-      puts " - #{@model_class} #{condition_hash.inspect}"      
+      puts " - #{@model_class} #{condition_hash.inspect}"
       record
     end
 
@@ -66,14 +68,14 @@ end
 
 class ActiveRecord::Base
   # Creates a single record of seed data for use
-  # with the db:seed rake task. 
-  # 
+  # with the db:seed rake task.
+  #
   # === Parameters
   # constraints :: Immutable reference attributes. Defaults to :id
   def self.seed(*constraints, &block)
     SeedFu::Seeder.plant(self, *constraints, &block)
   end
-  
+
   def self.seed_once(*constraints, &block)
     constraints << true
     SeedFu::Seeder.plant(self, *constraints, &block)

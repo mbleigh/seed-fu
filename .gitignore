@@ -2,3 +2,5 @@
 *.gem
 .DS_Store
 /pkg
+Gemfile.lock
+.bundle
