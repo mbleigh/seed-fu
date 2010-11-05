@@ -6,7 +6,7 @@ describe SeedFu::Writer do
   end
 
   after do
-    #FileUtils.rm(@file_name)
+    FileUtils.rm(@file_name)
   end
 
   it "should successfully write some seeds out to a file and then import them back in" do
