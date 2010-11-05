@@ -15,13 +15,11 @@ Gem::Specification.new do |s|
   s.description = "Seed Fu is an attempt to once and for all solve the problem of inserting and maintaining seed data in a database. It uses a variety of techniques gathered from various places around the web and combines them to create what is hopefully the most robust seed data system around."
 
   s.add_dependency "activerecord", "~> 3.0.0"
-  s.add_development_dependency "rspec", "~> 2.0.0"
 
-  if RUBY_VERSION >= '1.9.1'
-    s.add_development_dependency "sqlite3"
-  else
-    s.add_development_dependency "sqlite3-ruby"
-  end
+  s.add_development_dependency "rspec", "~> 2.0.0"
+  s.add_development_dependency "pg"
+  s.add_development_dependency "mysql2"
+  s.add_development_dependency(RUBY_VERSION >= '1.9.1' ? "sqlite3" : "sqlite3-ruby")
 
   s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.md CHANGELOG.md)
   s.require_path = 'lib'
