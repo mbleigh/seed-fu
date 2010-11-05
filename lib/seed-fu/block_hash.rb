@@ -1,4 +1,5 @@
 module SeedFu
+  # @private
   class BlockHash
     def initialize(proc)
       @hash = {}

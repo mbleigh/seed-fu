@@ -1,7 +1,22 @@
 require 'active_support/core_ext/hash/keys'
 
 module SeedFu
+  # Creates or updates seed records with data.
+  #
+  # It is not recommended to use this class directly. Instead, use `Model.seed`, and `Model.seed_once`,
+  # where `Model` is your Active Record model.
+  #
+  # @see ActiveRecordExtension
   class Seeder
+    # @param [ActiveRecord::Base] model_class The model to be seeded
+    # @param [Array<Symbol>] constraints A list of attributes which identify a particular seed. If
+    #   a record with these attributes already exists then it will be updated rather than created.
+    # @param [Array<Hash>] data Each item in this array is a hash containing attributes for a
+    #   particular record.
+    # @param [Hash] options
+    # @option options [Boolean] :quiet (SeedFu.quiet) If true, output will be silenced
+    # @option options [Boolean] :insert_only (false) If true then existing records which match the
+    #   constraints will not be updated, even if the seed data has changed
     def initialize(model_class, constraints, data, options = {})
       @model_class = model_class
       @constraints = constraints.to_a.empty? ? [:id] : constraints
@@ -14,6 +29,8 @@ module SeedFu
       validate_data!
     end
 
+    # Insert/update the records as appropriate. Validation is skipped while saving.
+    # @return [Array<ActiveRecord::Base>] The records which have been seeded
     def seed
       @model_class.transaction do
         @data.map { |record_data| seed_record(record_data.symbolize_keys) }
@@ -45,6 +62,7 @@ module SeedFu
         record.send(:attributes=, data, false)
         puts " - #{@model_class} #{data.inspect}" unless @options[:quiet]
         record.save(:validate => false)
+        record
       end
 
       def find_or_initialize_record(data)

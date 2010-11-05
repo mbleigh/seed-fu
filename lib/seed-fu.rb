@@ -9,19 +9,27 @@ module SeedFu
   autoload :Runner,                'seed-fu/runner'
   autoload :Writer,                'seed-fu/writer'
 
-  # Turn off the output when seeding data
   mattr_accessor :quiet
+
+  # Set `SeedFu.quiet = true` to silence all output
   @@quiet = false
 
-  # The locations of fixtures
   mattr_accessor :fixture_paths
+
+  # Set this to be an array of paths to directories containing your seed files. If used as a Rails
+  # plugin, SeedFu will set to to contain `Rails.root/db/fixtures` and
+  # `Rails.root/db/fixtures/Rails.env`
   @@fixture_paths = ['db/fixtures']
 
-  def self.seed(fixture_paths = nil, filter = nil)
+  # Load seed data from files
+  # @param [Array] fixture_paths The paths to look for seed files in
+  # @param [Regexp] filter If given, only filenames matching this expression will be loaded
+  def self.seed(fixture_paths = SeedFu.fixture_paths, filter = nil)
     Runner.new(fixture_paths, filter).run
   end
 end
 
+# @public
 class ActiveRecord::Base
   extend SeedFu::ActiveRecordExtension
 end
