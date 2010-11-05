@@ -8,6 +8,8 @@ Warning: API Changes
 
 Version 2.0.0 of Seed Fu introduces API changes. `Seed::Writer` has been completely overhauled and will require you to update your scripts. Some other deprecations have been introduced, but the methods will not be removed until version 2.1.0. Please see the [CHANGELOG](CHANGELOG.md) for details.
 
+The API documentation is available in full at [http://rubydoc.info/github/mbleigh/seed-fu/master/frames](http://rubydoc.info/github/mbleigh/seed-fu/master/frames).
+
 Basic Example
 -------------
 
