@@ -23,6 +23,6 @@ Gem::Specification.new do |s|
     s.add_development_dependency "sqlite3-ruby"
   end
 
-  s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.rdoc CHANGELOG.md)
+  s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.md CHANGELOG.md)
   s.require_path = 'lib'
 end
