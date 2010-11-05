@@ -65,7 +65,7 @@ module SeedFu
         puts " - #{@model_class} #{data.inspect}" unless @options[:quiet]
 
         record.send(:attributes=, data, false)
-        record.save(:validate => false)
+        record.save(:validate => false) || raise(ActiveRecord::RecordNotSaved)
         record
       end
 

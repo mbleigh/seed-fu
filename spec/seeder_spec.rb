@@ -137,4 +137,8 @@ describe SeedFu::Seeder do
       lambda { SeededModel.create!(:title => "Bla") }.should_not raise_error
     end
   end
+
+  it "should raise an ActiveRecord::RecordNotSaved exception if any records fail to save" do
+    lambda { SeededModel.seed(:fail_to_save => true, :title => "Foo") }.should raise_error(ActiveRecord::RecordNotSaved)
+  end
 end

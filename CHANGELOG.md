@@ -5,6 +5,8 @@ Bug fixes:
 
 * Update the primary key sequence in PostgreSQL tables after seeding data. This ensures that id conflicts do not occur when records are subsequently added to the table.
 
+* Raise ActiveRecord::RecordNotSaved if any of the saves fail (but they won't fail due to validation since saves are done without validation, so this guards against callbacks failing etc.)
+
 Version 2.0.0
 -------------
 
