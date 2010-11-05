@@ -1,5 +1,12 @@
-Version 2.0.0 (In Development)
-------------------------------
+Version 2.0.1
+-------------
+
+Bug fixes:
+
+* Update the primary key sequence in PostgreSQL tables after seeding data. This ensures that id conflicts do not occur when records are subsequently added to the table.
+
+Version 2.0.0
+-------------
 
 Features:
 

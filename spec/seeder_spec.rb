@@ -128,4 +128,13 @@ describe SeedFu::Seeder do
   it "should not perform validation" do
     lambda { SeededModel.seed(:id => 1) }.should_not raise_error(ActiveRecord::RecordInvalid)
   end
+
+  if ENV["DB"] == "postgresql"
+    it "should update the primary key sequence after a records have been seeded" do
+      id = SeededModel.connection.select_value("SELECT currval('seeded_models_id_seq')").to_i + 1
+      SeededModel.seed(:title => "Foo", :id => id)
+
+      lambda { SeededModel.create!(:title => "Bla") }.should_not raise_error
+    end
+  end
 end
