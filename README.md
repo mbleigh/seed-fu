@@ -137,7 +137,7 @@ If you need to programmatically generate seed files, for example to convert a CS
 Bugs / Feature requests
 -----------------------
 
-Please report them [on Lighthouse](http://mbleigh.lighthouseapp.com/projects/10223-seed-fu).
+Please report them on [Github Issues](https://github.com/mbleigh/seed-fu/issues).
 
 Contributors
 ------------
