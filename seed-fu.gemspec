@@ -6,7 +6,7 @@ require 'seed-fu/version'
 
 Gem::Specification.new do |s|
   s.name        = "seed-fu"
-  s.version     = SeedFu::VERSION
+  s.version     = SeedFu::VERSION + ".rails31"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Michael Bleigh", "Jon Leighton"]
   s.email       = ["michael@intridea.com", "j@jonathanleighton.com"]
@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
   s.summary     = "Easily manage seed data in your Active Record application"
   s.description = "Seed Fu is an attempt to once and for all solve the problem of inserting and maintaining seed data in a database. It uses a variety of techniques gathered from various places around the web and combines them to create what is hopefully the most robust seed data system around."
 
-  s.add_dependency "activerecord", "~> 3.0.0"
-  s.add_dependency "activesupport", "~> 3.0.0"
+  s.add_dependency "activerecord", "~> 3.1.0.beta"
+  s.add_dependency "activesupport", "~> 3.1.0.beta"
 
   s.add_development_dependency "rspec", "~> 2.0"
   s.add_development_dependency "pg"
