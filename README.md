@@ -51,6 +51,10 @@ Seed Fu depends on Active Record, but doesn't have to be used with a full Rails 
 
 The current version is not backwards compatible with Rails 2.3. Please use Seed Fu [version 1.2.3](https://github.com/mbleigh/seed-fu/tree/v1.2.3).
 
+### Rails 3.1 (beta)
+
+As above, but install the gem which has '.rails31' prepended to its version string. For example, instead of using seed-fu version 2.0.1, use seed-fu version 2.0.1.rails31.
+
 Constraints
 -----------
 
