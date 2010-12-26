@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "activerecord", "~> 3.0.0"
 
-  s.add_development_dependency "rspec", "~> 2.0.0"
+  s.add_development_dependency "rspec", "~> 2.0"
   s.add_development_dependency "pg"
   s.add_development_dependency "mysql2"
   s.add_development_dependency(RUBY_VERSION >= '1.9.1' ? "sqlite3" : "sqlite3-ruby")
