@@ -79,7 +79,7 @@ module SeedFu
       end
 
       def update_id_sequence
-        if @model_class.connection.adapter_name == "PostgreSQL"
+        if @model_class.connection.adapter_name == "PostgreSQL" && @model_class.primary_key.is_a?(String)
           quoted_id       = @model_class.connection.quote_column_name(@model_class.primary_key)
           quoted_sequence = "'" + @model_class.sequence_name + "'"
           @model_class.connection.execute(
