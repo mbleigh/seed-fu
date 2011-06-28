@@ -4,9 +4,9 @@ module SeedFu
   # imported.
   #
   # @example Basic usage
-  #   SeedFu::Writer.write('path/to/file.rb', :class_name => 'Person', :constraints => [:first_name, :last_name]) do |writer|
-  #     writer.write(:first_name => 'Jon',   :last_name => 'Smith',    :age => 21)
-  #     writer.write(:first_name => 'Emily', :last_name => 'McDonald', :age => 24)
+  #   SeedFu::Writer.write('path/to/file.rb', :class_name => 'Person') do |writer|
+  #     writer << { :id => 1, :name => "Phil" }
+  #     writer << { :id => 2, :name => "Sarah" }
   #   end
   #
   #   # Writes the following to the file:
