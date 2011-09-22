@@ -1,14 +1,14 @@
 require 'active_record'
 require 'active_support/core_ext/module/attribute_accessors'
-require 'seed-fu/railtie' if defined?(Rails) && Rails.version >= "3"
+require File.expand_path('seed-fu/railtie', File.dirname(__FILE__)) if defined?(Rails) && Rails.version >= "3"
 
 module SeedFu
-  autoload :VERSION,               'seed-fu/version'
-  autoload :Seeder,                'seed-fu/seeder'
-  autoload :ActiveRecordExtension, 'seed-fu/active_record_extension'
-  autoload :BlockHash,             'seed-fu/block_hash'
-  autoload :Runner,                'seed-fu/runner'
-  autoload :Writer,                'seed-fu/writer'
+  autoload :VERSION,               File.expand_path('seed-fu/version', File.dirname(__FILE__))
+  autoload :Seeder,                File.expand_path('seed-fu/seeder',  File.dirname(__FILE__))
+  autoload :ActiveRecordExtension, File.expand_path('seed-fu/active_record_extension', File.dirname(__FILE__))
+  autoload :BlockHash,             File.expand_path('seed-fu/block_hash', File.dirname(__FILE__))
+  autoload :Runner,                File.expand_path('seed-fu/runner',  File.dirname(__FILE__))
+  autoload :Writer,                File.expand_path('seed-fu/writer',  File.dirname(__FILE__))
 
   mattr_accessor :quiet
 
