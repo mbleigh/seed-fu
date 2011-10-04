@@ -1,3 +1,12 @@
+Version 2.1.0
+-------------
+
+Features:
+
+* Deprecations removed
+
+* Rails 3.1 support added, Rails 3.0 support removed (please use 2.0.X line with 3.0)
+
 Version 2.0.1
 -------------
 

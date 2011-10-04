@@ -6,7 +6,7 @@ Seed Fu is an attempt to once and for all solve the problem of inserting and mai
 Warning: API Changes
 --------------------
 
-Version 2.0.0 of Seed Fu introduces API changes. `Seed::Writer` has been completely overhauled and will require you to update your scripts. Some other deprecations have been introduced, but the methods will not be removed until version 2.1.0. Please see the [CHANGELOG](CHANGELOG.md) for details.
+Version 2.0.0 of Seed Fu introduced API changes. `Seed::Writer` was been completely overhauled and will require you to update your scripts. Some other deprecations were introduced, and support is fully removed in version 2.1.0. Please see the [CHANGELOG](CHANGELOG.md) for details.
 
 The API documentation is available in full at [http://rubydoc.info/github/mbleigh/seed-fu/master/frames](http://rubydoc.info/github/mbleigh/seed-fu/master/frames).
 
@@ -39,21 +39,19 @@ Basic Example
 Installation
 ------------
 
-### Rails 3
+### Rails 3.1
 
-Just add `gem 'seed-fu'` to your `Gemfile`
-
-### Active Record 3
+Just add `gem 'seed-fu', '~> 2.1.0'` to your `Gemfile`
 
 Seed Fu depends on Active Record, but doesn't have to be used with a full Rails app. Simply load and require the `seed-fu` gem and you're set.
 
+### Rails 3.0
+
+The current version is not backwards compatible with Rails 3.0. Please use `gem 'seed-fu', '~> 2.0.0'`.
+
 ### Rails 2.3
 
-The current version is not backwards compatible with Rails 2.3. Please use Seed Fu [version 1.2.3](https://github.com/mbleigh/seed-fu/tree/v1.2.3).
-
-### Rails 3.1 (beta)
-
-As above, but install the gem which has '.rails31' prepended to its version string. For example, instead of using seed-fu version 2.0.1, use seed-fu version 2.0.1.rails31.
+The current version is not backwards compatible with Rails 2.3. Please use `gem 'seed-fu', '~> 1.2.0'`.
 
 Constraints
 -----------
