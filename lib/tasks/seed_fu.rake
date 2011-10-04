@@ -25,11 +25,6 @@ namespace :db do
       rake db:seed FIXTURE_PATH=features/fixtures
   EOS
   task :seed_fu => :environment do
-    if ENV["SEED"]
-      puts "DEPRECATED: The SEED option to db:seed_fu is deprecated. Please use FILTER instead."
-      ENV["FILTER"] = ENV["SEED"]
-    end
-
     if ENV["FILTER"]
       filter = /#{ENV["FILTER"].gsub(/,/, "|")}/
     end
