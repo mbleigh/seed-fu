@@ -5,8 +5,8 @@ module SeedFu
   #
   # @example Basic usage
   #   SeedFu::Writer.write('path/to/file.rb', :class_name => 'Person', :constraints => [:first_name, :last_name]) do |writer|
-  #     writer.write(:first_name => 'Jon',   :last_name => 'Smith',    :age => 21)
-  #     writer.write(:first_name => 'Emily', :last_name => 'McDonald', :age => 24)
+  #     writer.add(:first_name => 'Jon',   :last_name => 'Smith',    :age => 21)
+  #     writer.add(:first_name => 'Emily', :last_name => 'McDonald', :age => 24)
   #   end
   #
   #   # Writes the following to the file:
