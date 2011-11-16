@@ -64,7 +64,7 @@ Constraints are used to identify seeds, so that they can be updated if necessary
       s.name = "Home"
     end
 
-The first time this seed is loaded, a `Point` record will be created. No suppose the name is changed:
+The first time this seed is loaded, a `Point` record will be created. Now suppose the name is changed:
 
     Point.seed(:x, :y) do |s|
       s.x = 4
