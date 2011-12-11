@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'spec_helper'
 
 describe SeedFu::Writer do
@@ -42,4 +43,17 @@ describe SeedFu::Writer do
 
     SeededModel.find(1).title.should == "Dr"
   end
+
+  it "should support specifying the output encoding to use" do
+    SeedFu::Writer.write(@file_name, :class_name => 'SeededModel', :encoding => "utf-8") do |writer|
+      writer << { :id => 1, :title => "Mr" }
+      writer << { :id => 2, :title => "Máster" }
+    end
+
+    File.read(@file_name).should include("# encoding: utf-8\n")
+
+    load @file_name
+    SeededModel.find(2).title.should == "Máster"
+  end
 end
+

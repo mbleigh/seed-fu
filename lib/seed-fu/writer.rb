@@ -31,9 +31,11 @@ module SeedFu
     # @option options [:seed, :seed_once] :seed_type (:seed) The method to use when generating
     #   seeds. See {ActiveRecordExtension} for details.
     # @option options [Array<Symbol>] :constraints ([:id]) The constraining attributes for the seeds
+    # @option options [String] :encoding The encoding to use in the generated file.
     def initialize(options = {})
       @options = self.class.default_options.merge(options)
       raise ArgumentError, "missing option :class_name" unless @options[:class_name]
+      set_encoding if @options[:encoding]
     end
 
     # Creates a new instance of {Writer} with the `options`, and then calls {#write} with the
@@ -56,10 +58,11 @@ module SeedFu
       if io_or_filename.respond_to?(:write)
         write_to_io(io_or_filename, &block)
       else
-        File.open(io_or_filename, 'w') do |file|
+        File.open(io_or_filename, "w#{encoding_string}") do |file|
           write_to_io(file, &block)
         end
       end
+      unset_encoding if @old_encoding
     end
 
     # Add a seed. Must be called within a block passed to {#write}.
@@ -88,6 +91,7 @@ module SeedFu
 
       def write_to_io(io)
         @io, @count = io, 0
+        @io.write(encoding_comment) if @options[:encoding]
         @io.write(file_header)
         @io.write(seed_header)
         yield(self)
@@ -128,5 +132,23 @@ module SeedFu
       def chunk_this_seed?
         @count != 0 && (@count % @options[:chunk_size]) == 0
       end
+
+      def encoding_string
+        ":#{@options[:encoding]}" if @options[:encoding]
+      end
+
+      def encoding_comment
+        "# encoding: #{@options[:encoding]}\n"
+      end
+
+      def set_encoding
+        @old_encoding = Encoding.default_internal
+        Encoding.default_internal = @options[:encoding]
+      end
+
+      def unset_encoding
+        Encoding.default_internal = @old_encoding if @old_encoding
+      end
   end
 end
+
