@@ -29,7 +29,12 @@ module SeedFu
     #       { :x => 5, :y => 9,  :name => "Office" }
     #     )
     def seed(*args, &block)
-      SeedFu::Seeder.new(self, *parse_seed_fu_args(args, block)).seed
+      do_seed({}, *args, &block)
+    end
+    
+    # Has the same behavior as {#seed}, but will run validations and raise an error if they fail.
+    def seed!(*args, &block)
+      do_seed({ :validate => true}, *args, &block)
     end
 
     # Has the same syntax as {#seed}, but if a record already exists with the same values for
@@ -40,11 +45,20 @@ module SeedFu
     #   Person.seed(:id, :id => 1, :name => "Bob") # => Name changed
     #   Person.seed(:id, :id => 1, :name => "Harry") # => Name *not* changed
     def seed_once(*args, &block)
-      constraints, data = parse_seed_fu_args(args, block)
-      SeedFu::Seeder.new(self, constraints, data, :insert_only => true).seed
+      do_seed({:insert_only => true}, *args, &block)
+    end
+    
+    # Has the same behavior as {#seed_once}, but will run validations and raise an error if they fail.
+    def seed_once!(*args, &block)
+      do_seed({:insert_only => true, :validate => true}, *args, &block)
     end
 
     private
+    
+      def do_seed(options, *args, &block)
+        constraints, data = parse_seed_fu_args(args, block)
+        SeedFu::Seeder.new(self, constraints, data, options).seed
+      end
 
       def parse_seed_fu_args(args, block)
         if block.nil?

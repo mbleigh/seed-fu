@@ -123,7 +123,38 @@ describe SeedFu::Seeder do
   it "should not perform validation" do
     lambda { SeededModel.seed(:id => 1) }.should_not raise_error(ActiveRecord::RecordInvalid)
   end
-
+  
+  it "should validate attributes with seed!" do
+    expect do
+      SeededModel.seed!(:id) do |s|
+        s.id = 1
+        s.login = "bob"
+      end
+    end.to raise_error(ActiveRecord::RecordInvalid)
+  end
+    
+  it "should validate attributes with seed_once!" do
+    expect do
+      SeededModel.seed_once!(:id) do |s|
+        s.id = 1
+        s.login = "bob"
+      end
+    end.to raise_error(ActiveRecord::RecordInvalid)
+  end
+  
+  it "should pass validation with seed!" do
+    expect do
+      SeededModel.seed!(:id) do |s|
+        s.id = 1
+        s.login = "bob"
+        s.title = "Exists"
+      end
+    end.should_not raise_error(ActiveRecord::RecordInvalid)
+    
+    bob = SeededModel.find_by_id(1)
+    bob.title.should == 'Exists'
+  end
+  
   if ENV["DB"] == "postgresql"
     it "should update the primary key sequence after a records have been seeded" do
       id = SeededModel.connection.select_value("SELECT currval('seeded_models_id_seq')").to_i + 1

@@ -24,6 +24,7 @@ module SeedFu
       @options     = options.symbolize_keys
 
       @options[:quiet] ||= SeedFu.quiet
+      @options[:validate] ||= false  # replace nil with false
 
       validate_constraints!
       validate_data!
@@ -65,7 +66,7 @@ module SeedFu
         puts " - #{@model_class} #{data.inspect}" unless @options[:quiet]
 
         record.assign_attributes(data,  :without_protection => true)
-        record.save(:validate => false) || raise(ActiveRecord::RecordNotSaved)
+        record.save!(:validate => @options[:validate])
         record
       end
 
