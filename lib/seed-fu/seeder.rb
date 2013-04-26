@@ -64,7 +64,7 @@ module SeedFu
 
         puts " - #{@model_class} #{data.inspect}" unless @options[:quiet]
 
-        record.assign_attributes(data,  :without_protection => true)
+        record.assign_attributes(data)
         record.save(:validate => false) || raise(ActiveRecord::RecordNotSaved)
         record
       end
