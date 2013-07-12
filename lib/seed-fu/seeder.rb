@@ -64,7 +64,13 @@ module SeedFu
 
         puts " - #{@model_class} #{data.inspect}" unless @options[:quiet]
 
-        record.assign_attributes(data,  :without_protection => true)
+        # Rails 3 or Rails 4 + rails/protected_attributes
+        if record.class.respond_to?(:protected_attributes) && record.class.respond_to?(:accessible_attributes)
+          record.assign_attributes(data,  :without_protection => true)
+        # Rails 4 without rails/protected_attributes
+        else
+          record.assign_attributes(data)
+        end
         record.save(:validate => false) || raise(ActiveRecord::RecordNotSaved)
         record
       end
