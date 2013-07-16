@@ -1,3 +1,10 @@
+Unreleased
+----------
+
+Features:
+
+* Rails 4.0.X support added. (by @tkhr, @DanielWright)
+
 Version 2.1.0
 -------------
 

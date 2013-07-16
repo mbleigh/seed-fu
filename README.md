@@ -39,6 +39,13 @@ Basic Example
 Installation
 ------------
 
+### Rails 4.0
+
+The current latest version isn't compatible with Rails 4.0.
+You will have to use the HEAD of this repo.
+
+    gem 'seed-fu', github: 'mbleigh/seed-fu'
+
 ### Rails 3.1
 
 Just add `gem 'seed-fu', '~> 2.1.0'` to your `Gemfile`
