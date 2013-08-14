@@ -132,11 +132,11 @@ describe SeedFu::Seeder do
       expect { SeededModel.create!(:title => "Bla") }.not_to raise_error
     end
 
-    it "should not rise error when there is no primary key specified" do
+    it "should not raise error when there is no primary key specified" do
       expect { SeededModelNoPrimaryKey.seed(:id => "Id") }.not_to raise_error
     end
 
-    it "should not rise error when there is primary key without sequence" do
+    it "should not raise error when there is primary key without sequence" do
       expect { SeededModelNoSequence.seed(:id => "Id") }.not_to raise_error
     end
   end
