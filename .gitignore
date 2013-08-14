@@ -6,3 +6,5 @@ Gemfile.lock
 .bundle
 .yardoc
 doc
+.rvmrc
+.idea
