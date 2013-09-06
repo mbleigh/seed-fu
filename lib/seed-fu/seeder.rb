@@ -88,12 +88,17 @@ module SeedFu
         if @model_class.connection.adapter_name == "PostgreSQL"
           quoted_id       = @model_class.connection.quote_column_name(@model_class.primary_key)
           quoted_sequence = "'" + @model_class.sequence_name + "'"
-          @model_class.connection.execute(
-            "SELECT pg_catalog.setval(" +
-              "#{quoted_sequence}," +
-              "(SELECT MAX(#{quoted_id}) FROM #{@model_class.quoted_table_name}) + 1" +
-            ");"
-          )
+          next_id = (@model_class.maximum(:id) || 0) + 1
+
+          # nothing to repair, the id sequenc starts at 1
+          if(next_id > 1)
+            @model_class.connection.execute(
+              "SELECT pg_catalog.setval(" +
+                "#{quoted_sequence}," +
+                " #{next_id}" +
+              ");"
+            )
+          end
         end
       end
   end
