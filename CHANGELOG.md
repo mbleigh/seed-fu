@@ -1,9 +1,14 @@
-Unreleased
-----------
+Version 2.3.0
+-------------
 
 Features:
 
 * Rails 4.0.X support added. (by @tkhr, @DanielWright)
+
+Version 2.2.0
+-------------
+
+* Rails 3.2 support
 
 Version 2.1.0
 -------------
