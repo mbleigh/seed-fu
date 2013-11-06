@@ -143,6 +143,16 @@ Generating seed files
 
 If you need to programmatically generate seed files, for example to convert a CSV file into a seed file, then you can use [`SeedFu::Writer`](../SeedFu/Writer).
 
+Capistrano deployment
+---------------------
+
+SeedFu has included Capistrano [deploy script](lib/seed-fu/capistrano.rb), you just need require that 
+in `config/deploy.rb`:
+
+```ruby
+require 'seed-fu/capistrano'
+```
+
 Bugs / Feature requests
 -----------------------
 
