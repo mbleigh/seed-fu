@@ -141,7 +141,7 @@ Seed files can be huge.  To handle large files (over a million rows), try these 
 Generating seed files
 ---------------------
 
-If you need to programmatically generate seed files, for example to convert a CSV file into a seed file, then you can use [`SeedFu::Writer`](../SeedFu/Writer).
+If you need to programmatically generate seed files, for example to convert a CSV file into a seed file, then you can use [`SeedFu::Writer`](https://github.com/mbleigh/seed-fu/blob/master/lib/seed-fu/writer.rb).
 
 Bugs / Feature requests
 -----------------------
