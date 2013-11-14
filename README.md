@@ -151,6 +151,9 @@ in `config/deploy.rb`:
 
 ```ruby
 require 'seed-fu/capistrano'
+
+# Trigger the task after update_code
+after 'deploy:update_code', 'db:seed_fu'
 ```
 
 Bugs / Feature requests
