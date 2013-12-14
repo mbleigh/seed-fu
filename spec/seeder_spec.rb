@@ -1,6 +1,21 @@
 require 'spec_helper'
 
 describe SeedFu::Seeder do
+
+  it "should work with negative seeds" do
+    SeededModel.seed(:id) do |s|
+      s.id = -2
+      s.login = "bob"
+      s.first_name = "Bob"
+      s.last_name = "Bobson"
+      s.title = "Peon"
+    end
+
+    bob = SeededModel.find_by_id(-2)
+    bob.first_name.should == "Bob"
+    bob.last_name.should == "Bobson"
+  end
+
   it "should create a model if one doesn't exist" do
     SeededModel.seed(:id) do |s|
       s.id = 5
