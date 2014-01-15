@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'seed-fu'
 require 'logger'
+require 'protected_attributes'
 
 SeedFu.quiet = true
 
@@ -17,6 +18,7 @@ ActiveRecord::Schema.define :version => 0 do
     t.column :first_name, :string
     t.column :last_name, :string
     t.column :title, :string
+    t.column :is_deleted, :boolean, default: false
   end
 end
 
@@ -24,6 +26,7 @@ class SeededModel < ActiveRecord::Base
   validates_presence_of :title
   attr_protected :first_name
   attr_accessor :fail_to_save
+  default_scope { where(:is_deleted => false) }
 
   before_save { false if fail_to_save }
 end

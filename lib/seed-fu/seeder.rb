@@ -76,7 +76,7 @@ module SeedFu
       end
 
       def find_or_initialize_record(data)
-        @model_class.where(constraint_conditions(data)).first ||
+        @model_class.unscoped.where(constraint_conditions(data)).first ||
         @model_class.new
       end
 
