@@ -121,7 +121,7 @@ describe SeedFu::Seeder do
   end
 
   it "should not perform validation" do
-    lambda { SeededModel.seed(:id => 1) }.should_not raise_error(ActiveRecord::RecordInvalid)
+    lambda { SeededModel.seed(:id => 1) }.should_not raise_error
   end
 
   if ENV["DB"] == "postgresql"

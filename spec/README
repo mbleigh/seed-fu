@@ -1,4 +1,14 @@
-To run the specs:
+Some of the tests expect mysql2, which in-turn depends on mysql.
+
+If you'd rather not install mysql, you can just comment out the mysql2 development dependency in seed-fu.gemspec.
+
+If you'd like to be able to run tests in MySQL, then you may need it installed for the mysql2 gem to compile.
+
+In OS X, if you use Homebrew, to install you might use:
+
+  brew install mysql
+
+Now that we're finally done with that, to run the specs:
 
   gem install bundler # If not already installed
   bundle install      # Install the dependencies
@@ -13,4 +23,4 @@ To test others:
 
 In each of these cases, you'll need to create a database named "spec_fu_test".
 
-The connection paramaters for each of these are specified in spec/connections/, which you can edit if necessary (for example to change the username/password).
+The connection parameters for each of these are specified in spec/connections/, which you can edit if necessary, e.g. to change the username/password.
