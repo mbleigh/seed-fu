@@ -39,13 +39,6 @@ Basic Example
 Installation
 ------------
 
-### Rails 4.0
-
-The current latest version isn't compatible with Rails 4.0.
-You will have to use the HEAD of this repo.
-
-    gem 'seed-fu', github: 'mbleigh/seed-fu'
-
 ### Rails 3.1
 
 Just add `gem 'seed-fu', '~> 2.1.0'` to your `Gemfile`
@@ -146,7 +139,7 @@ If you need to programmatically generate seed files, for example to convert a CS
 Capistrano deployment
 ---------------------
 
-SeedFu has included Capistrano [deploy script](lib/seed-fu/capistrano.rb), you just need require that 
+SeedFu has included Capistrano [deploy script](lib/seed-fu/capistrano.rb), you just need require that
 in `config/deploy.rb`:
 
 ```ruby
