@@ -16,13 +16,13 @@ namespace :db do
 
     Examples:
       # default, to load all seed files for the current environment
-      rake db:seed
+      rake db:seed_fu
 
       # to load seed files matching orders or customers
-      rake db:seed FILTER=orders,customers
+      rake db:seed_fu FILTER=orders,customers
 
       # to load files from RAILS_ROOT/features/fixtures
-      rake db:seed FIXTURE_PATH=features/fixtures
+      rake db:seed_fu FIXTURE_PATH=features/fixtures
   EOS
   task :seed_fu => :environment do
     if ENV["FILTER"]
