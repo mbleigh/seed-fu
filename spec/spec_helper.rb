@@ -22,7 +22,7 @@ end
 
 class SeededModel < ActiveRecord::Base
   validates_presence_of :title
-  attr_protected :first_name
+  attr_protected :first_name rescue # rescue to ignore error since unsupported in Rails 4+ without additional gem
   attr_accessor :fail_to_save
 
   before_save { false if fail_to_save }
