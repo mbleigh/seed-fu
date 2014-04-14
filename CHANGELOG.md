@@ -1,3 +1,11 @@
+Version 2.3.1
+-------------
+
+Features:
+
+* Rails 4.1 support added.
+* Capistrano task included. (by @linjunpop)
+
 Version 2.3.0
 -------------
 
