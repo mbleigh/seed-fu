@@ -62,8 +62,17 @@ module SeedFu
 
       def filenames
         filenames = []
-        @fixture_paths.each do |path|
-          filenames += (Dir[File.join(path, '*.rb')] + Dir[File.join(path, '*.rb.gz')]).sort
+        if SeedFu.orders.is_a?(Array) && SeedFu.orders.length > 0
+          @fixture_paths.each do |path|
+            SeedFu.orders.each do |order|
+              filename = File.join(path, "#{order}.rb")
+              filenames << filename if File.exists?(filename)
+            end
+          end
+        else
+          @fixture_paths.each do |path|
+            filenames += (Dir[File.join(path, '*.rb')] + Dir[File.join(path, '*.rb.gz')]).sort
+          end
         end
         filenames.uniq!
         filenames = filenames.find_all { |filename| filename =~ @filter } if @filter

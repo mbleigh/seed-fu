@@ -22,6 +22,11 @@ module SeedFu
   # `Rails.root/db/fixtures/Rails.env`
   @@fixture_paths = ['db/fixtures']
 
+  mattr_accessor :orders
+
+  # Set this to be an array of seed orders, default value is empty
+  @@orders = []
+
   # Load seed data from files
   # @param [Array] fixture_paths The paths to look for seed files in
   # @param [Regexp] filter If given, only filenames matching this expression will be loaded
