@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'seed-fu'
 require 'logger'
+require 'rails' # needed for version
 
 SeedFu.quiet = true
 
@@ -22,7 +23,7 @@ end
 
 class SeededModel < ActiveRecord::Base
   validates_presence_of :title
-  attr_protected :first_name
+  attr_protected :first_name unless Rails.version >= '4'
   attr_accessor :fail_to_save
 
   before_save { false if fail_to_save }
