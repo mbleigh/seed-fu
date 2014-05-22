@@ -44,6 +44,26 @@ module SeedFu
       SeedFu::Seeder.new(self, constraints, data, :insert_only => true).seed
     end
 
+    # Shortcut to using SeedFu::Writer on an ActiveRecord::Collection. Useful if
+    # you want to dump all of the instances of a model to a seed file. By default
+    # it uses all of the attributes of a model, but you can also specify which
+    # attributes to use as an option  `attributes: ['id', 'name']`.
+    #
+    # Check out the SeedFu::Writer documentation for more options.
+    #
+    # @example
+    #   Person.write_seed('path/to/file.rb')
+    def write_seed(io_or_filename, options = {})
+      options[:class_name] ||= self.name
+      options[:attributes] ||= self.column_names
+      SeedFu::Writer.write(io_or_filename, options) do |writer|
+        all.each do |record|
+          attributes = record.attributes.select { |k,_| options[:attributes].include?(k) }
+          writer.add(attributes)
+        end
+      end
+    end
+
     private
 
       def parse_seed_fu_args(args, block)

@@ -42,4 +42,20 @@ describe SeedFu::Writer do
 
     SeededModel.find(1).title.should == "Dr"
   end
+
+  it "should write out seeds based off an ActiveRecord collection" do
+    SeededModel.seed(:id => 1, :title => "Sr")
+    SeededModel.seed(:id => 2, :title => "Dr")
+    SeededModel.seed(:id => 3, :title => "Mr")
+
+    SeededModel.where(:id => [1, 2]).write_seed(@file_name)
+
+    SeededModel.delete_all
+    SeededModel.count.should == 0
+
+    load @file_name
+    SeededModel.count.should == 2
+    SeededModel.find(1).title.should == "Sr"
+    SeededModel.find(2).title.should == "Dr"
+  end
 end
