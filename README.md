@@ -136,6 +136,12 @@ Generating seed files
 
 If you need to programmatically generate seed files, for example to convert a CSV file into a seed file, then you can use [`SeedFu::Writer`](lib/seed-fu/writer.rb).
 
+If you want to generate a seed file based on the existing ActiveRecord objects then you can use the `write_seed` method on any ActiveRecord collection. By default it uses all of the attributes of a model, but you can also specify which attributes to use as an option  `attributes: ['id', 'name']`.  Check out the SeedFu::Writer documentation for more options.
+
+```ruby
+User.where(first_name: 'John').write_seed('path/to/file.rb')
+```
+
 Capistrano deployment
 ---------------------
 
