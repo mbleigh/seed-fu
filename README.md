@@ -39,9 +39,9 @@ Basic Example
 Installation
 ------------
 
-### Rails 3.1
+### Rails 3.1, 3.2, 4.0, 4.1
 
-Just add `gem 'seed-fu', '~> 2.1.0'` to your `Gemfile`
+Just add `gem 'seed-fu', '~> 2.3'` to your `Gemfile`
 
 Seed Fu depends on Active Record, but doesn't have to be used with a full Rails app. Simply load and require the `seed-fu` gem and you're set.
 
