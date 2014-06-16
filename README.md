@@ -89,8 +89,8 @@ Where to put seed files
 
 By default, seed files are looked for in the following locations:
 
-* `Rails.root/db/fixtures` and `Rails.root/db/fixtures/Rails.env` in a Rails app
-* `db/fixtures` when loaded without Rails
+* `#{Rails.root}/db/fixtures` and `#{Rails.root}/db/fixtures/#{Rails.env}` in a Rails app
+* `./db/fixtures` when loaded without Rails
 
 You can change these defaults by modifying the `SeedFu.fixture_paths` array.
 
