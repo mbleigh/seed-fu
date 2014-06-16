@@ -27,7 +27,7 @@ ActiveRecord::Schema.define :version => 0 do
     t.column :id, :string
   end
 
-  execute("ALTER TABLE seeded_model_no_sequences ADD PRIMARY KEY (id)");
+  execute("ALTER TABLE seeded_model_no_sequences ADD PRIMARY KEY (id)") if ENV['DB'] == 'postgresql'
 end
 
 class SeededModel < ActiveRecord::Base
