@@ -18,14 +18,32 @@ ActiveRecord::Schema.define :version => 0 do
     t.column :last_name, :string
     t.column :title, :string
   end
+
+  create_table :seeded_model_no_primary_keys, :id => false, :force => true do |t|
+    t.column :id, :string
+  end
+
+  create_table :seeded_model_no_sequences, :id => false, :force => true do |t|
+    t.column :id, :string
+  end
+
+  execute("ALTER TABLE seeded_model_no_sequences ADD PRIMARY KEY (id)");
 end
 
 class SeededModel < ActiveRecord::Base
   validates_presence_of :title
-  attr_protected :first_name
+  attr_protected :first_name if self.respond_to?(:protected_attributes)
   attr_accessor :fail_to_save
 
   before_save { false if fail_to_save }
+end
+
+class SeededModelNoPrimaryKey < ActiveRecord::Base
+
+end
+
+class SeededModelNoSequence < ActiveRecord::Base
+
 end
 
 RSpec.configure do |config|
