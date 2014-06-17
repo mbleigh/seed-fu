@@ -1,3 +1,13 @@
+Version 2.3.2
+-------------
+
+Features:
+
+* Documentation improvements (by @george, @kenips, @joshuapinter)
+* Fix documentation of seed_once method (by weedySeaDragon)
+* Allow to seed data with an id < 1 (by @SamSaffron, @aserafin)
+* Seeds work on postgresql when there is no primary key or if primary key has no sequence assigned (by @aserafin)
+
 Version 2.3.1
 -------------
 

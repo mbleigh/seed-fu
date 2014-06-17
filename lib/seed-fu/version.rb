@@ -1,4 +1,4 @@
 module SeedFu
   # The current version of Seed Fu
-  VERSION = '2.3.1'
+  VERSION = '2.3.2'
 end
