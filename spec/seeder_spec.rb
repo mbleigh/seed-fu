@@ -23,8 +23,10 @@ describe SeedFu::Seeder do
     bob.first_name.should == "Bob"
     bob.last_name.should == "Bobson"
 
-    next_id = SeededModel.connection.execute("select nextval('seeded_models_id_seq')")
-    next_id[0]['nextval'].to_i.should == 11
+    if ENV['DB'] == 'postgresql'
+      next_id = SeededModel.connection.execute("select nextval('seeded_models_id_seq')")
+      next_id[0]['nextval'].to_i.should == 11
+    end
   end
 
   it "should create a model if one doesn't exist" do
