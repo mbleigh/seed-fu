@@ -149,6 +149,15 @@ require 'seed-fu/capistrano'
 after 'deploy:update_code', 'db:seed_fu'
 ```
 
+If you use Capistrano3, you should require another file.
+
+```ruby
+require 'seed-fu/capistrano3'
+
+# Trigger the task before publishing
+before 'deploy:publishing', 'db:seed_fu'
+```
+
 Bugs / Feature requests
 -----------------------
 
