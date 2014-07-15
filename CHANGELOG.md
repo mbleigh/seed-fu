@@ -1,3 +1,10 @@
+Version 2.3.3
+-------------
+
+Features:
+
+* Capistrano v3 support (by @shishi)
+
 Version 2.3.2
 -------------
 
