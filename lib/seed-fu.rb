@@ -1,11 +1,10 @@
-require 'active_record'
 require 'active_support/core_ext/module/attribute_accessors'
 require 'seed-fu/railtie' if defined?(Rails) && Rails.version >= "3"
 
 module SeedFu
   autoload :VERSION,               'seed-fu/version'
   autoload :Seeder,                'seed-fu/seeder'
-  autoload :ActiveRecordExtension, 'seed-fu/active_record_extension'
+  autoload :ModelExtension,        'seed-fu/model_extension'
   autoload :BlockHash,             'seed-fu/block_hash'
   autoload :Runner,                'seed-fu/runner'
   autoload :Writer,                'seed-fu/writer'
@@ -31,6 +30,20 @@ module SeedFu
 end
 
 # @public
-class ActiveRecord::Base
-  extend SeedFu::ActiveRecordExtension
+begin
+  require 'active_record'
+  class ActiveRecord::Base
+    extend SeedFu::ModelExtension
+  end
+rescue LoadError
+end
+
+begin
+  require 'mongoid'
+  module Mongoid::Document
+    module ClassMethods
+      include SeedFu::ModelExtension
+    end
+  end
+rescue LoadError
 end

@@ -32,19 +32,27 @@ module SeedFu
       def run_file(filename)
         puts "\n== Seed from #{filename}" unless SeedFu.quiet
 
-        ActiveRecord::Base.transaction do
-          open(filename) do |file|
-            chunked_ruby = ''
-            file.each_line do |line|
-              if line == "# BREAK EVAL\n"
-                eval(chunked_ruby)
-                chunked_ruby = ''
-              else
-                chunked_ruby << line
-              end
-            end
-            eval(chunked_ruby) unless chunked_ruby == ''
+        if(defined?(ActiveRecord::Base) && ActiveRecord::Base.connected?)
+          ActiveRecord::Base.transaction do
+            parse_file(filename)
           end
+        else
+          parse_file(filename)
+        end
+      end
+
+      def parse_file(filename)
+        open(filename) do |file|
+          chunked_ruby = ''
+          file.each_line do |line|
+            if line == "# BREAK EVAL\n"
+              eval(chunked_ruby)
+              chunked_ruby = ''
+            else
+              chunked_ruby << line
+            end
+          end
+          eval(chunked_ruby) unless chunked_ruby == ''
         end
       end
 

@@ -29,7 +29,7 @@ module SeedFu
     # @option options [Fixnum] :chunk_size (100) The number of seeds to write before generating a
     #   `# BREAK EVAL` line. (Chunking reduces memory usage when loading seeds.)
     # @option options [:seed, :seed_once] :seed_type (:seed) The method to use when generating
-    #   seeds. See {ActiveRecordExtension} for details.
+    #   seeds. See {ModelExtension} for details.
     # @option options [Array<Symbol>] :constraints ([:id]) The constraining attributes for the seeds
     def initialize(options = {})
       @options = self.class.default_options.merge(options)
