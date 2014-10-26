@@ -131,6 +131,21 @@ Seed files can be huge.  To handle large files (over a million rows), try these 
 * Load a single fixture at a time with the `FILTER` environment variable
 * If you don't need Seed Fu's ability to update seed with new data, then you may find that [activerecord-import](https://github.com/zdennis/activerecord-import) is faster
 
+Seed files are run inside transactions
+--------------------------------------
+
+If a command raises, all previous database modifications on the current file are rolled back:
+
+```ruby
+User.seed do |s|
+  s.id    = 1
+  s.email = "jon@example.com"
+end
+raise
+```
+
+would not create a new user.
+
 Generating seed files
 ---------------------
 
