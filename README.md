@@ -114,7 +114,10 @@ Seed files can be run automatically using `rake db:seed_fu`. There are two optio
 * `rake db:seed_fu FIXTURE_PATH=path/to/fixtures` -- Where to find the fixtures
 * `rake db:seed_fu FILTER=users,articles` -- Only run seed files with a filename matching the `FILTER`
 
-You can also do a similar thing in your code by calling `SeedFu.seed(fixture_paths, filter)`.
+You can also do a similar thing in your code by calling `SeedFu.seed(fixture_paths, filter)`, where`filter` is a regex expression, like the following:
+
+    SeedFu.seed( 'path/to/fixtures', /users/ )
+    
 
 Disable output
 --------------
