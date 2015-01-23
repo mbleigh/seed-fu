@@ -35,15 +35,17 @@ module SeedFu
         ActiveRecord::Base.transaction do
           open(filename) do |file|
             chunked_ruby = ''
-            file.each_line do |line|
+            line_number = 1
+            file.each_line.with_index do |line, index|
               if line == "# BREAK EVAL\n"
-                eval(chunked_ruby)
+                eval(chunked_ruby, binding, filename, line_number)
                 chunked_ruby = ''
+                line_number = index + 2
               else
                 chunked_ruby << line
               end
             end
-            eval(chunked_ruby) unless chunked_ruby == ''
+            eval(chunked_ruby, binding, filename, line_number) unless chunked_ruby == ''
           end
         end
       end
