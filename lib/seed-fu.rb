@@ -11,9 +11,12 @@ module SeedFu
   autoload :Writer,                'seed-fu/writer'
 
   mattr_accessor :quiet
+  mattr_accessor :validate
 
   # Set `SeedFu.quiet = true` to silence all output
   @@quiet = false
+  # Set `SeedFu.validate = true` to validate when seeding and trigger callbacks
+  @@validate = false
 
   mattr_accessor :fixture_paths
 

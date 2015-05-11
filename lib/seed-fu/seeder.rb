@@ -23,7 +23,8 @@ module SeedFu
       @data        = data.to_a || []
       @options     = options.symbolize_keys
 
-      @options[:quiet] ||= SeedFu.quiet
+      @options[:quiet]    ||= SeedFu.quiet
+      @options[:validate] ||= SeedFu.validate
 
       validate_constraints!
       validate_data!
@@ -71,7 +72,11 @@ module SeedFu
         else
           record.assign_attributes(data)
         end
-        record.save(:validate => false) || raise(ActiveRecord::RecordNotSaved, 'Record not saved!')
+        if @options[:validate]
+          record.save!
+        else
+          record.save(:validate => false) || raise(ActiveRecord::RecordNotSaved, 'Record not saved!')
+        end
         record
       end
 
