@@ -32,6 +32,9 @@ module SeedFu
       SeedFu::Seeder.new(self, *parse_seed_fu_args(args, block)).seed
     end
 
+    def seed!(*args, &block)
+      SeedFu::Seeder.new(self, *parse_seed_fu_args(args, block), validate_models: true).seed
+    end
     # Has the same syntax as {#seed}, but if a record already exists with the same values for
     # constraining attributes, it will not be updated.
     #

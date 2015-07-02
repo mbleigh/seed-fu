@@ -172,4 +172,15 @@ describe SeedFu::Seeder do
   it "should raise an ActiveRecord::RecordNotSaved exception if any records fail to save" do
     expect { SeededModel.seed(:fail_to_save => true, :title => "Foo") }.to raise_error(ActiveRecord::RecordNotSaved)
   end
+
+  describe "seed!" do
+    it "should raise an ActiveRecord::RecordNotSaved exception if a record is invalid" do
+      expect { SeededModel.seed!(:title => nil) }.to raise_error(ActiveRecord::RecordNotSaved)
+    end
+
+    it "should save a model when it is valid" do
+      result = SeededModel.seed!(:title => "Foo")
+      expect(result.all?(&:persisted?)).to be_truthy
+    end
+  end
 end
