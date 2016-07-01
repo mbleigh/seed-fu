@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.name        = "seed-fu"
   s.version     = SeedFu::VERSION
   s.platform    = Gem::Platform::RUBY
+  s.licenses    = ['MIT']
   s.authors     = ["Michael Bleigh", "Jon Leighton"]
   s.email       = ["michael@intridea.com", "j@jonathanleighton.com"]
   s.homepage    = "http://github.com/mbleigh/seed-fu"
