@@ -1,3 +1,10 @@
+Version 2.3.6
+-------------
+
+Features:
+
+* Rails 5.0 support
+
 Version 2.3.5
 -------------
 
