@@ -96,8 +96,13 @@ module SeedFu
       end
 
       def find_or_initialize_record(data)
-        @model_class.where(constraint_conditions(data)).first ||
-        @model_class.new
+        if(defined?(ActiveRecord::Base) && @model_class <= ActiveRecord::Base)
+          record = @model_class.where(constraint_conditions(data)).take
+        elsif(defined?(Mongoid) && Mongoid.models.include?(@model_class))
+          record = @model_class.where(constraint_conditions(data)).first
+        end
+
+        record || @model_class.new
       end
 
       def constraint_conditions(data)
@@ -105,7 +110,7 @@ module SeedFu
       end
 
       def update_id_sequence
-        if(defined?(ActiveRecord::Base) && @model_class <= ActiveRecord::Base && @model_class.connection.adapter_name == "PostgreSQL")
+        if(defined?(ActiveRecord::Base) && @model_class <= ActiveRecord::Base && (@model_class.connection.adapter_name == "PostgreSQL" or @model_class.connection.adapter_name == "PostGIS"))
           return if @model_class.primary_key.nil? || @model_class.sequence_name.nil?
 
           quoted_id       = @model_class.connection.quote_column_name(@model_class.primary_key)
