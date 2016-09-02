@@ -39,7 +39,7 @@ Basic Example
 Installation
 ------------
 
-### Rails 3.1, 3.2, 4.0, 4.1
+### Rails 3.1, 3.2, 4.0, 4.1, 4.2, 5.0
 
 Just add `gem 'seed-fu', '~> 2.3'` to your `Gemfile`
 
