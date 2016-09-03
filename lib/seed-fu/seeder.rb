@@ -88,13 +88,20 @@ module SeedFu
         if @model_class.connection.adapter_name == "PostgreSQL" or @model_class.connection.adapter_name == "PostGIS"
           return if @model_class.primary_key.nil? || @model_class.sequence_name.nil?
 
-          quoted_id       = @model_class.connection.quote_column_name(@model_class.primary_key)
-          sequence = @model_class.sequence_name
-
+          quoted_id     = @model_class.connection.quote_column_name(@model_class.primary_key)
+          sequence_path = generate_sequence_path
           @model_class.connection.execute <<-EOS
-            SELECT setval('#{sequence}', (SELECT GREATEST(MAX(#{quoted_id})+(SELECT increment_by FROM #{sequence}), (SELECT min_value FROM #{sequence})) FROM #{@model_class.quoted_table_name}), false)
+            SELECT setval('#{sequence_path}', (SELECT GREATEST(MAX(#{quoted_id})+(SELECT increment_by FROM #{sequence_path}), (SELECT min_value FROM #{sequence_path})) FROM #{@model_class.quoted_table_name}), false)
           EOS
         end
+      end
+
+      def generate_sequence_path
+        #if rails connection schema_search_path for connection is delivering a wrong route for schema path, sequence update may rise an error (ussually this happens when using
+        # an engine mounted in a common environment which by default looks for the schema in the public path 'public.table_id_seq' instead of the engine's schema path engine.table_id_seq)
+        schema_path = @options[:schema] || ""
+        sequence_name = @model_class.sequence_name
+        schema_path.blank? ? sequence_name : [schema_path, sequence_name].join(".")
       end
   end
 end
