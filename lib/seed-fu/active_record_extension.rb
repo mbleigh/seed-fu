@@ -38,7 +38,7 @@ module SeedFu
     # @example
     #   Person.seed(:id, :id => 1, :name => "Jon") # => Record created
     #   Person.seed(:id, :id => 1, :name => "Bob") # => Name changed
-    #   Person.seed(:id, :id => 1, :name => "Harry") # => Name *not* changed
+    #   Person.seed_once(:id, :id => 1, :name => "Harry") # => Name *not* changed
     def seed_once(*args, &block)
       constraints, data = parse_seed_fu_args(args, block)
       SeedFu::Seeder.new(self, constraints, data, :insert_only => true).seed

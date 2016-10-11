@@ -1,3 +1,42 @@
+Version 2.3.6
+-------------
+
+Features:
+
+* Rails 5.0 support
+
+Version 2.3.5
+-------------
+
+Features:
+
+* Rails 4.2 support
+
+Version 2.3.3
+-------------
+
+Features:
+
+* Capistrano v3 support (by @shishi)
+
+Version 2.3.2
+-------------
+
+Features:
+
+* Documentation improvements (by @george, @kenips, @joshuapinter)
+* Fix documentation of seed_once method (by weedySeaDragon)
+* Allow to seed data with an id < 1 (by @SamSaffron, @aserafin)
+* Seeds work on postgresql when there is no primary key or if primary key has no sequence assigned (by @aserafin)
+
+Version 2.3.1
+-------------
+
+Features:
+
+* Rails 4.1 support added.
+* Capistrano task included. (by @linjunpop)
+
 Version 2.3.0
 -------------
 

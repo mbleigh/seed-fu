@@ -1,6 +1,34 @@
 require 'spec_helper'
 
 describe SeedFu::Seeder do
+
+  it "should work with negative seeds" do
+    SeededModel.seed(:id) do |s|
+      s.id = 10
+      s.login = "bob2"
+      s.first_name = "Bob2"
+      s.last_name = "Bobson2"
+      s.title = "Peaon2"
+    end
+
+    SeededModel.seed(:id) do |s|
+      s.id = -2
+      s.login = "bob"
+      s.first_name = "Bob"
+      s.last_name = "Bobson"
+      s.title = "Peon"
+    end
+
+    bob = SeededModel.find_by_id(-2)
+    bob.first_name.should == "Bob"
+    bob.last_name.should == "Bobson"
+
+    if ENV['DB'] == 'postgresql'
+      next_id = SeededModel.connection.execute("select nextval('seeded_models_id_seq')")
+      next_id[0]['nextval'].to_i.should == 11
+    end
+  end
+
   it "should create a model if one doesn't exist" do
     SeededModel.seed(:id) do |s|
       s.id = 5
@@ -132,11 +160,11 @@ describe SeedFu::Seeder do
   end
 
   it "should require that all constraints are defined" do
-    lambda { SeededModel.seed(:doesnt_exist, :title => "Bla") }.should raise_error(ArgumentError)
+    expect { SeededModel.seed(:doesnt_exist, :title => "Bla") }.to raise_error(ArgumentError)
   end
 
   it "should not perform validation" do
-    lambda { SeededModel.seed(:id => 1) }.should_not raise_error(ActiveRecord::RecordInvalid)
+    expect { SeededModel.seed(:id => 1) }.not_to raise_error()
   end
 
   if ENV["DB"] == "postgresql"
@@ -144,11 +172,19 @@ describe SeedFu::Seeder do
       id = SeededModel.connection.select_value("SELECT currval('seeded_models_id_seq')").to_i + 1
       SeededModel.seed(:title => "Foo", :id => id)
 
-      lambda { SeededModel.create!(:title => "Bla") }.should_not raise_error
+      expect { SeededModel.create!(:title => "Bla") }.not_to raise_error
+    end
+
+    it "should not raise error when there is no primary key specified" do
+      expect { SeededModelNoPrimaryKey.seed(:id => "Id") }.not_to raise_error
+    end
+
+    it "should not raise error when there is primary key without sequence" do
+      expect { SeededModelNoSequence.seed(:id => "Id") }.not_to raise_error
     end
   end
 
   it "should raise an ActiveRecord::RecordNotSaved exception if any records fail to save" do
-    lambda { SeededModel.seed(:fail_to_save => true, :title => "Foo") }.should raise_error(ActiveRecord::RecordNotSaved)
+    expect { SeededModel.seed(:fail_to_save => true, :title => "Foo") }.to raise_error(ActiveRecord::RecordNotSaved)
   end
 end
