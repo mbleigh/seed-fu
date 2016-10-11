@@ -144,6 +144,21 @@ describe SeedFu::Seeder do
     SeededModel.find(1).title.should == "Foo"
   end
 
+  it "ignores default scope to avoid duplicate key errors" do
+    SeededModel.seed([{id: 1, title: 'deleted_record', is_deleted: true}])
+    expect {
+      SeededModel.seed([{id: 1, title: 'deleted_record', is_deleted: true}])
+    }.to_not raise_error
+    expect(SeededModel.unscoped.find(1).title).to eq 'deleted_record'
+  end
+
+  it "can change an unscoped record" do
+    expect(SeededModel.unscoped.find(1).title).to eq 'deleted_record'
+    SeededModel.seed([{id: 1, title: 'deleted_record', is_deleted: true}])
+    SeededModel.seed([{id: 1, title: 'undeleted_record', is_deleted: false}])
+    expect(SeededModel.find(1).title).to eq 'undeleted_record'
+  end
+
   it "should require that all constraints are defined" do
     expect { SeededModel.seed(:doesnt_exist, :title => "Bla") }.to raise_error(ArgumentError)
   end
