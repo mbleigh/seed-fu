@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pg", '~> 0'
   s.add_development_dependency "mysql2", '~> 0'
   s.add_development_dependency "sqlite3", '~> 0'
-  s.add_development_dependency "protected_attributes", '~> 1.1'
 
   s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.md CHANGELOG.md)
   s.require_path = 'lib'

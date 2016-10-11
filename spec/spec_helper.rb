@@ -2,7 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 require 'seed-fu'
 require 'logger'
-require 'protected_attributes'
 
 SeedFu.quiet = true
 
