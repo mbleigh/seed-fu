@@ -39,16 +39,9 @@ Basic Example
 Installation
 ------------
 
-### Rails 4.0
+### Rails 3.1, 3.2, 4.0, 4.1, 4.2, 5.0
 
-The current latest version isn't compatible with Rails 4.0.
-You will have to use the HEAD of this repo.
-
-    gem 'seed-fu', github: 'mbleigh/seed-fu'
-
-### Rails 3.1
-
-Just add `gem 'seed-fu', '~> 2.1.0'` to your `Gemfile`
+Just add `gem 'seed-fu', '~> 2.3'` to your `Gemfile`
 
 Seed Fu depends on Active Record, but doesn't have to be used with a full Rails app. Simply load and require the `seed-fu` gem and you're set.
 
@@ -96,8 +89,8 @@ Where to put seed files
 
 By default, seed files are looked for in the following locations:
 
-* `Rails.root/db/fixtures` and `Rails.root/db/fixtures/Rails.env` in a Rails app
-* `db/fixtures` when loaded without Rails
+* `#{Rails.root}/db/fixtures` and `#{Rails.root}/db/fixtures/#{Rails.env}` in a Rails app
+* `./db/fixtures` when loaded without Rails
 
 You can change these defaults by modifying the `SeedFu.fixture_paths` array.
 
@@ -146,7 +139,7 @@ If you need to programmatically generate seed files, for example to convert a CS
 Capistrano deployment
 ---------------------
 
-SeedFu has included Capistrano [deploy script](lib/seed-fu/capistrano.rb), you just need require that 
+SeedFu has included Capistrano [deploy script](lib/seed-fu/capistrano.rb), you just need require that
 in `config/deploy.rb`:
 
 ```ruby
@@ -154,6 +147,15 @@ require 'seed-fu/capistrano'
 
 # Trigger the task after update_code
 after 'deploy:update_code', 'db:seed_fu'
+```
+
+If you use Capistrano3, you should require another file.
+
+```ruby
+require 'seed-fu/capistrano3'
+
+# Trigger the task before publishing
+before 'deploy:publishing', 'db:seed_fu'
 ```
 
 Bugs / Feature requests
