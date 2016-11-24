@@ -12,6 +12,13 @@ Features:
 
 * Rails 4.2 support
 
+Version 2.3.4
+-------------
+
+Features:
+
+* Update dependencies for Rails 4.2
+
 Version 2.3.3
 -------------
 
