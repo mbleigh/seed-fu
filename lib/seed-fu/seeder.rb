@@ -93,9 +93,17 @@ module SeedFu
           quoted_id       = @model_class.connection.quote_column_name(@model_class.primary_key)
           sequence = @model_class.sequence_name
 
-          @model_class.connection.execute <<-EOS
-            SELECT setval('#{sequence}', (SELECT GREATEST(MAX(#{quoted_id})+(SELECT increment_by FROM #{sequence}), (SELECT min_value FROM #{sequence})) FROM #{@model_class.quoted_table_name}), false)
-          EOS
+          if @model_class.connection.postgresql_version >= 100000
+            sql =<<-EOS
+              SELECT setval('#{sequence}', (SELECT GREATEST(MAX(#{quoted_id})+(SELECT seqincrement FROM pg_sequence WHERE seqrelid = '#{sequence}'::regclass), (SELECT seqmin FROM pg_sequence WHERE seqrelid = '#{sequence}'::regclass)) FROM #{@model_class.quoted_table_name}), false)
+            EOS
+          else
+            sql =<<-EOS
+              SELECT setval('#{sequence}', (SELECT GREATEST(MAX(#{quoted_id})+(SELECT increment_by FROM #{sequence}), (SELECT min_value FROM #{sequence})) FROM #{@model_class.quoted_table_name}), false)
+            EOS
+          end
+
+          @model_class.connection.execute sql
         end
       end
   end
