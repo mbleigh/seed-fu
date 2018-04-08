@@ -76,7 +76,7 @@ module SeedFu
       end
 
       def find_or_initialize_record(data)
-        @model_class.where(constraint_conditions(data)).take ||
+        @model_class.where(constraint_conditions(data)).limit(1).to_a.first ||
         @model_class.new
       end
 
