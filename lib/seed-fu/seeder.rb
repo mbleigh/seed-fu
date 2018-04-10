@@ -17,6 +17,8 @@ module SeedFu
     # @option options [Boolean] :quiet (SeedFu.quiet) If true, output will be silenced
     # @option options [Boolean] :insert_only (false) If true then existing records which match the
     #   constraints will not be updated, even if the seed data has changed
+    # @option options [Boolean] :validate_models (false) If true then seeded models will be validated
+    #   when inserted/updated.
     def initialize(model_class, constraints, data, options = {})
       @model_class = model_class
       @constraints = constraints.to_a.empty? ? [:id] : constraints
@@ -71,7 +73,7 @@ module SeedFu
         else
           record.assign_attributes(data)
         end
-        record.save(:validate => false) || raise(ActiveRecord::RecordNotSaved, 'Record not saved!')
+        record.save(:validate => !!@options[:validate_models]) || raise(ActiveRecord::RecordNotSaved, 'Record not saved!')
         record
       end
 
