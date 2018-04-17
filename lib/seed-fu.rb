@@ -31,6 +31,6 @@ module SeedFu
 end
 
 # @public
-class ActiveRecord::Base
+ActiveSupport.on_load(:active_record) do
   extend SeedFu::ActiveRecordExtension
 end
