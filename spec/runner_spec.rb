@@ -21,4 +21,18 @@ describe SeedFu::Runner do
     SeedFu.seed
     SeededModel.count.should == 3
   end
+
+  it "should give meaningful stacktraces" do
+    %w[straight chunked].each do |suffix|
+      begin
+        SeedFu.seed(File.dirname(__FILE__) + '/fixtures/with_errors', /_#{suffix}/)
+        fail "An exception was supposed to be raised"
+      rescue Exception => e
+        e.message.should == "on line 4"
+        e.backtrace.first.should =~ /seeded_models_#{suffix}.rb:4/
+      end
+    end
+  end
+
+
 end
