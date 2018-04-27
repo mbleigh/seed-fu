@@ -121,6 +121,11 @@ Disable output
 
 To disable output from Seed Fu, set `SeedFu.quiet = true`.
 
+Enable validate
+--------------
+
+To enable model validations from Seed Fu, set `SeedFu.validate = true`.
+
 Handling large seed files
 -------------------------
 
