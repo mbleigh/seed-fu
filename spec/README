@@ -11,6 +11,6 @@ To test others:
   DB=mysql rspec spec/
   DB=postgresql rspec spec/
 
-In each of these cases, you'll need to create a database named "spec_fu_test".
+In each of these cases, you'll need to create a database named "seed_fu_test".
 
 The connection paramaters for each of these are specified in spec/connections/, which you can edit if necessary (for example to change the username/password).
