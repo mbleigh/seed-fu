@@ -1,3 +1,10 @@
+Version 2.3.10
+-------------
+
+Features:
+
+* Add `QUIET` option to the rake task.
+
 Version 2.3.8
 -------------
 

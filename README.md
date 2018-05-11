@@ -109,10 +109,11 @@ When loading lots of records, the above block-based syntax can be quite verbose.
 Rake task
 ---------
 
-Seed files can be run automatically using `rake db:seed_fu`. There are two options which you can pass:
+Seed files can be run automatically using `rake db:seed_fu`. There are following options which you can pass:
 
 * `rake db:seed_fu FIXTURE_PATH=path/to/fixtures` -- Where to find the fixtures
 * `rake db:seed_fu FILTER=users,articles` -- Only run seed files with a filename matching the `FILTER`
+* `rake db:seed_fu QUIET=true` -- Same effect as `SeedFu.quiet = true`
 
 You can also do a similar thing in your code by calling `SeedFu.seed(fixture_paths, filter)`.
 
