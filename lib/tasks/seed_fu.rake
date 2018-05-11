@@ -23,6 +23,9 @@ namespace :db do
 
       # to load files from RAILS_ROOT/features/fixtures
       rake db:seed_fu FIXTURE_PATH=features/fixtures
+
+      # to disable output
+      rake db:seed_fu QUIET=true
   EOS
   task :seed_fu => :environment do
     if ENV["FILTER"]
@@ -31,6 +34,10 @@ namespace :db do
 
     if ENV["FIXTURE_PATH"]
       fixture_paths = [ENV["FIXTURE_PATH"], ENV["FIXTURE_PATH"] + '/' + Rails.env]
+    end
+
+    if ENV["QUIET"] == "true"
+      SeedFu.quiet = true
     end
 
     SeedFu.seed(fixture_paths, filter)
