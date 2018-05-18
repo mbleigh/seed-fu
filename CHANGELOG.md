@@ -1,3 +1,17 @@
+Version 2.3.8
+-------------
+
+Bug fixes:
+
+* Restored support for PostgreSQL with Rails versions before 5.0.0 broken in Seed Fu 2.3.7.
+
+Version 2.3.7
+-------------
+
+Features:
+
+* Postgresql >= 10.0 support
+
 Version 2.3.6
 -------------
 
