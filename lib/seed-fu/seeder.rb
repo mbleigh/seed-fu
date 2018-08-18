@@ -6,7 +6,7 @@ module SeedFu
   # It is not recommended to use this class directly. Instead, use `Model.seed`, and `Model.seed_once`,
   # where `Model` is your Active Record model.
   #
-  # @see ActiveRecordExtension
+  # @see ModelExtension
   class Seeder
     # @param [ActiveRecord::Base] model_class The model to be seeded
     # @param [Array<Symbol>] constraints A list of attributes which identify a particular seed. If
@@ -32,8 +32,13 @@ module SeedFu
     # Insert/update the records as appropriate. Validation is skipped while saving.
     # @return [Array<ActiveRecord::Base>] The records which have been seeded
     def seed
-      records = @model_class.transaction do
-        @data.map { |record_data| seed_record(record_data.symbolize_keys) }
+      records = []
+      if(defined?(ActiveRecord::Base) && @model_class <= ActiveRecord::Base)
+        @model_class.transaction do
+          records = seed_records
+        end
+      else
+        records = seed_records
       end
       update_id_sequence
       records
@@ -41,12 +46,27 @@ module SeedFu
 
     private
 
+      def seed_records
+        @data.map { |record_data| seed_record(record_data.symbolize_keys) }
+      end
+
       def validate_constraints!
-        unknown_columns = @constraints.map(&:to_s) - @model_class.column_names
+        column_names = []
+        if(defined?(ActiveRecord::Base) && @model_class <= ActiveRecord::Base)
+          column_names = @model_class.column_names
+        elsif(defined?(Mongoid) && Mongoid.models.include?(@model_class))
+          column_names = @model_class.fields.keys
+
+          # Allow the aliased "id" field when the internal "_id" field is
+          # present.
+          column_names << "id" if(column_names.include?("_id"))
+        end
+
+        unknown_columns = @constraints.map(&:to_s) - column_names
         unless unknown_columns.empty?
           raise(ArgumentError,
             "Your seed constraints contained unknown columns: #{column_list(unknown_columns)}. " +
-            "Valid columns are: #{column_list(@model_class.column_names)}.")
+            "Valid columns are: #{column_list(column_names)}.")
         end
       end
 
@@ -76,8 +96,13 @@ module SeedFu
       end
 
       def find_or_initialize_record(data)
-        @model_class.where(constraint_conditions(data)).take ||
-        @model_class.new
+        if(defined?(ActiveRecord::Base) && @model_class <= ActiveRecord::Base)
+          record = @model_class.where(constraint_conditions(data)).take
+        elsif(defined?(Mongoid) && Mongoid.models.include?(@model_class))
+          record = @model_class.where(constraint_conditions(data)).first
+        end
+
+        record || @model_class.new
       end
 
       def constraint_conditions(data)
@@ -85,7 +110,7 @@ module SeedFu
       end
 
       def update_id_sequence
-        if @model_class.connection.adapter_name == "PostgreSQL" or @model_class.connection.adapter_name == "PostGIS"
+        if(defined?(ActiveRecord::Base) && @model_class <= ActiveRecord::Base && (@model_class.connection.adapter_name == "PostgreSQL" or @model_class.connection.adapter_name == "PostGIS"))
           return if @model_class.primary_key.nil? || @model_class.sequence_name.nil?
 
           quoted_id       = @model_class.connection.quote_column_name(@model_class.primary_key)

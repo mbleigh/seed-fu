@@ -1,5 +1,5 @@
 module SeedFu
-  module ActiveRecordExtension
+  module ModelExtension
     # Load some seed data. There are two ways to do this.
     #
     # Verbose syntax

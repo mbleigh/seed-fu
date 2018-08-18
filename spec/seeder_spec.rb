@@ -19,7 +19,7 @@ describe SeedFu::Seeder do
       s.title = "Peon"
     end
 
-    bob = SeededModel.find_by_id(-2)
+    bob = SeededModel.find(-2)
     bob.first_name.should == "Bob"
     bob.last_name.should == "Bobson"
 
@@ -38,7 +38,7 @@ describe SeedFu::Seeder do
       s.title = "Peon"
     end
 
-    bob = SeededModel.find_by_id(5)
+    bob = SeededModel.find(5)
     bob.first_name.should == "Bob"
     bob.last_name.should == "Bobson"
   end
@@ -60,13 +60,13 @@ describe SeedFu::Seeder do
 
     SeededModel.count.should == 2
 
-    SeededModel.find_by_login("bob").first_name.should == "Bob"
+    SeededModel.where(:login => "bob").first.first_name.should == "Bob"
     SeededModel.seed(:title, :login) do |s|
       s.login = "bob"
       s.title = "Peon"
       s.first_name = "Steve"
     end
-    SeededModel.find_by_login("bob").first_name.should == "Steve"
+    SeededModel.where(:login => "bob").first.first_name.should == "Steve"
   end
 
   it "should be able to create models from an array of seed attributes" do
@@ -76,9 +76,9 @@ describe SeedFu::Seeder do
       {:login => "harry", :title => "Noble", :first_name => "Harry"}
     ])
 
-    SeededModel.find_by_login("bob").first_name.should == "Steve"
-    SeededModel.find_by_login("frank").first_name.should == "Francis"
-    SeededModel.find_by_login("harry").first_name.should == "Harry"
+    SeededModel.where(:login => "bob").first.first_name.should == "Steve"
+    SeededModel.where(:login => "frank").first.first_name.should == "Francis"
+    SeededModel.where(:login => "harry").first.first_name.should == "Harry"
   end
 
   it "should be able to create models from a list of seed attribute hashes at the end of the args" do
@@ -88,9 +88,9 @@ describe SeedFu::Seeder do
       {:login => "harry", :title => "Noble", :first_name => "Harry"}
     )
 
-    SeededModel.find_by_login("bob").first_name.should == "Steve"
-    SeededModel.find_by_login("frank").first_name.should == "Francis"
-    SeededModel.find_by_login("harry").first_name.should == "Harry"
+    SeededModel.where(:login => "bob").first.first_name.should == "Steve"
+    SeededModel.where(:login => "frank").first.first_name.should == "Francis"
+    SeededModel.where(:login => "harry").first.first_name.should == "Harry"
   end
 
   it "should update, not create, if constraints are met" do
@@ -110,7 +110,7 @@ describe SeedFu::Seeder do
       s.title = "Peon"
     end
 
-    bob = SeededModel.find_by_id(1)
+    bob = SeededModel.find(1)
     bob.first_name.should == "Robert"
     bob.last_name.should == "Bobson"
   end
@@ -132,7 +132,7 @@ describe SeedFu::Seeder do
       s.title = "Peon"
     end
 
-    bob = SeededModel.find_by_id(1)
+    bob = SeededModel.find(1)
     bob.first_name.should == "Bob"
     bob.last_name.should == "Bobson"
   end

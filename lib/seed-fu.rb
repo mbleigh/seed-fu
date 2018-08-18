@@ -1,11 +1,10 @@
-require 'active_record'
 require 'active_support/core_ext/module/attribute_accessors'
 require 'seed-fu/railtie' if defined?(Rails) && Rails.version >= "3"
 
 module SeedFu
   autoload :VERSION,               'seed-fu/version'
   autoload :Seeder,                'seed-fu/seeder'
-  autoload :ActiveRecordExtension, 'seed-fu/active_record_extension'
+  autoload :ModelExtension,        'seed-fu/model_extension'
   autoload :BlockHash,             'seed-fu/block_hash'
   autoload :Runner,                'seed-fu/runner'
   autoload :Writer,                'seed-fu/writer'
@@ -30,7 +29,40 @@ module SeedFu
   end
 end
 
-# @public
-class ActiveRecord::Base
-  extend SeedFu::ActiveRecordExtension
+# Don't try to require active_record in if this is being loaded inside a Rails
+# app. Inside a Rails app, we'll assume ActiveRecord has been already been
+# required if it is being used (in the config/application.rb file).
+#
+# This is to prevent this gem from requiring ActiveRecord in a non-ActiveRecord
+# Rails app. This helps compatibility with other gems that may try to establish
+# ActiveRecord connections if the class is defined.
+if(!defined?(Rails))
+  begin
+    require 'active_record'
+  rescue LoadError
+  end
+end
+
+# Since Mongoid isn't pre-loaded in the same way ActiveRecord is by
+# config/application.rb inside Rails apps, try to see if it exists regardless
+# of Rails environment.
+begin
+  require 'mongoid'
+rescue LoadError
+end
+
+if(defined?(ActiveRecord::Base))
+  # @public
+  class ActiveRecord::Base
+    extend SeedFu::ModelExtension
+  end
+end
+
+if(defined?(Mongoid::Document))
+  # @public
+  module Mongoid::Document
+    module ClassMethods
+      include SeedFu::ModelExtension
+    end
+  end
 end
