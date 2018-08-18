@@ -105,7 +105,7 @@ module SeedFu
 # Seeding #{@options[:class_name]}
 # Written with the command:
 #
-#   #{$0} #{$*.join}
+#   #{$0} #{$*.join(' ')}
 #
         END
       end
