@@ -1,3 +1,10 @@
+THIS FORK IS NOW DEPRECATED
+===========================
+
+The original issue this fork was created for was to address seeding models that had a default scope that limited viewability of rows.  Specifically we are using acts_as_paranoid, a soft deleting gem.  When the seeds were called on a model that used this gem, seeds for rows that had been soft deleted were attempted to be inserted again.  The work around for this is to call `.seed` on a relation that includes all the rows.  e.g. `Model.with_deleted.seed`
+
+Please use the original project from now on.
+
 Seed Fu
 =======
 
