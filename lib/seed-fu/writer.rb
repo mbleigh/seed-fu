@@ -93,6 +93,7 @@ module SeedFu
         yield(self)
         @io.write(seed_footer)
         @io.write(file_footer)
+        @io.close
       ensure
         @io, @count = nil, nil
       end
