@@ -66,7 +66,7 @@ module SeedFu
           filenames += (Dir[File.join(path, '*.rb')] + Dir[File.join(path, '*.rb.gz')]).sort
         end
         filenames.uniq!
-        filenames = filenames.find_all { |filename| filename =~ @filter } if @filter
+        filenames = filenames.find_all { |filename| filename.gsub(/^#{Regexp.quote(Rails.root.to_s)}/,'') =~ @filter } if @filter
         filenames
       end
   end
