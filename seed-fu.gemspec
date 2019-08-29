@@ -18,10 +18,10 @@ Gem::Specification.new do |s|
   s.add_dependency "activerecord", [">= 3.1"]
   s.add_dependency "activesupport", [">= 3.1"]
 
-  s.add_development_dependency "rspec", "~> 2.0"
+  s.add_development_dependency "rspec", [">= 2.11", "< 4.0"]
   s.add_development_dependency "pg", '~> 0'
   s.add_development_dependency "mysql2", '~> 0'
-  s.add_development_dependency "sqlite3", '~> 0'
+  s.add_development_dependency "sqlite3"
 
   s.files        = Dir.glob("{lib}/**/*") + %w(LICENSE README.md CHANGELOG.md)
   s.require_path = 'lib'

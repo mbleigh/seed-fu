@@ -16,8 +16,8 @@ describe SeedFu::Writer do
     end
     load @file_name
 
-    SeededModel.find(1).title.should == "Mr"
-    SeededModel.find(2).title.should == "Dr"
+    expect(SeededModel.find(1).title).to eq("Mr")
+    expect(SeededModel.find(2).title).to eq("Dr")
   end
 
   it "should support chunking" do
@@ -28,8 +28,8 @@ describe SeedFu::Writer do
     end
     load @file_name
 
-    SeededModel.count.should == 3
-    File.read(@file_name).should include("# BREAK EVAL\n")
+    expect(SeededModel.count).to eq(3)
+    expect(File.read(@file_name)).to include("# BREAK EVAL\n")
   end
 
   it "should support specifying the output to use 'seed_once' rather than 'seed'" do
@@ -40,6 +40,6 @@ describe SeedFu::Writer do
     end
     load @file_name
 
-    SeededModel.find(1).title.should == "Dr"
+    expect(SeededModel.find(1).title).to eq("Dr")
   end
 end

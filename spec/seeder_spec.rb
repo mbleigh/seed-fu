@@ -20,12 +20,12 @@ describe SeedFu::Seeder do
     end
 
     bob = SeededModel.find_by_id(-2)
-    bob.first_name.should == "Bob"
-    bob.last_name.should == "Bobson"
+    expect(bob.first_name).to eq("Bob")
+    expect(bob.last_name).to eq("Bobson")
 
     if ENV['DB'] == 'postgresql'
       next_id = SeededModel.connection.execute("select nextval('seeded_models_id_seq')")
-      next_id[0]['nextval'].to_i.should == 11
+      expect(next_id[0]['nextval'].to_i).to eq(11)
     end
   end
 
@@ -39,8 +39,8 @@ describe SeedFu::Seeder do
     end
 
     bob = SeededModel.find_by_id(5)
-    bob.first_name.should == "Bob"
-    bob.last_name.should == "Bobson"
+    expect(bob.first_name).to eq("Bob")
+    expect(bob.last_name).to eq("Bobson")
   end
 
   it "should be able to handle multiple constraints" do
@@ -50,7 +50,7 @@ describe SeedFu::Seeder do
       s.first_name = "Bob"
     end
 
-    SeededModel.count.should == 1
+    expect(SeededModel.count).to eq(1)
 
     SeededModel.seed(:title, :login) do |s|
       s.login = "frank"
@@ -58,15 +58,15 @@ describe SeedFu::Seeder do
       s.first_name = "Frank"
     end
 
-    SeededModel.count.should == 2
+    expect(SeededModel.count).to eq(2)
 
-    SeededModel.find_by_login("bob").first_name.should == "Bob"
+    expect(SeededModel.find_by_login("bob").first_name).to eq("Bob")
     SeededModel.seed(:title, :login) do |s|
       s.login = "bob"
       s.title = "Peon"
       s.first_name = "Steve"
     end
-    SeededModel.find_by_login("bob").first_name.should == "Steve"
+    expect(SeededModel.find_by_login("bob").first_name).to eq("Steve")
   end
 
   it "should be able to create models from an array of seed attributes" do
@@ -76,9 +76,9 @@ describe SeedFu::Seeder do
       {:login => "harry", :title => "Noble", :first_name => "Harry"}
     ])
 
-    SeededModel.find_by_login("bob").first_name.should == "Steve"
-    SeededModel.find_by_login("frank").first_name.should == "Francis"
-    SeededModel.find_by_login("harry").first_name.should == "Harry"
+    expect(SeededModel.find_by_login("bob").first_name).to eq("Steve")
+    expect(SeededModel.find_by_login("frank").first_name).to eq("Francis")
+    expect(SeededModel.find_by_login("harry").first_name).to eq("Harry")
   end
 
   it "should be able to create models from a list of seed attribute hashes at the end of the args" do
@@ -88,9 +88,9 @@ describe SeedFu::Seeder do
       {:login => "harry", :title => "Noble", :first_name => "Harry"}
     )
 
-    SeededModel.find_by_login("bob").first_name.should == "Steve"
-    SeededModel.find_by_login("frank").first_name.should == "Francis"
-    SeededModel.find_by_login("harry").first_name.should == "Harry"
+    expect(SeededModel.find_by_login("bob").first_name).to eq("Steve")
+    expect(SeededModel.find_by_login("frank").first_name).to eq("Francis")
+    expect(SeededModel.find_by_login("harry").first_name).to eq("Harry")
   end
 
   it "should update, not create, if constraints are met" do
@@ -111,8 +111,8 @@ describe SeedFu::Seeder do
     end
 
     bob = SeededModel.find_by_id(1)
-    bob.first_name.should == "Robert"
-    bob.last_name.should == "Bobson"
+    expect(bob.first_name).to eq("Robert")
+    expect(bob.last_name).to eq("Bobson")
   end
 
   it "should create but not update with seed_once" do
@@ -133,15 +133,15 @@ describe SeedFu::Seeder do
     end
 
     bob = SeededModel.find_by_id(1)
-    bob.first_name.should == "Bob"
-    bob.last_name.should == "Bobson"
+    expect(bob.first_name).to eq("Bob")
+    expect(bob.last_name).to eq("Bobson")
   end
 
   it "should default to an id constraint" do
     SeededModel.seed(:title => "Bla", :id => 1)
     SeededModel.seed(:title => "Foo", :id => 1)
 
-    SeededModel.find(1).title.should == "Foo"
+    expect(SeededModel.find(1).title).to eq("Foo")
   end
 
   it "should require that all constraints are defined" do
