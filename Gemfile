@@ -1,3 +1,3 @@
-source 'http://rubygems.org'
-gem 'rails', ">= 3.1", "< 5.1"
+source 'https://rubygems.org'
+gem 'rails', ">= 3.1", "< 6.1"
 gemspec
