@@ -30,7 +30,6 @@ module SeedFu
   end
 end
 
-# @public
-class ActiveRecord::Base
-  extend SeedFu::ActiveRecordExtension
+ActiveSupport.on_load(:active_record) do
+  send :extend, SeedFu::ActiveRecordExtension
 end
